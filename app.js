@@ -5,19 +5,22 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+//var MySQLStore = require('express-mysql-session')(session);
 
-
+var config = require('./model/config');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
-
 var app = express();
 
 app.use(session({
-	secret: 'secret',
+	key: config.database,
+	secret: config.cookieSecret,
 	cookie:{
 		maxAge: 1000*60*30
-	}
+	},
+	//store: new MySQLStore(config),
+    resave: true,
+    saveUninitialized: true
 }));
 app.use(function (req, res, next) {
 	//这些步骤的目的是？？？

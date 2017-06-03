@@ -1,22 +1,22 @@
-var login = function(router, model) {
+var login = function (router, model) {
 	router.route("/login")
-		.get(function(req, res) {
-			res.render("login", {title: "User login"});
+		.get(function (req, res) {
+			res.render("login", { title: "User login" });
 		})
-		.post(function(req, res) {
+		.post(function (req, res) {
 			var user = model.user;
 			//req.body.uname?
 			var uname = req.body.uname;
 
-			user.findOne({where: {name: uname}})
-				.then(project=> {
-					if(project) {
+			user.findOne({ where: { name: uname } })
+				.then(p => {
+					if (p) {
 						//req.body.upwd?
-						if(req.body.upwd != project.password) {
+						if (req.body.upwd != p.password) {
 							req.session.error = "密码错误";
 							res.send(404);
 						} else {
-							req.session.user = project;
+							req.session.user = p;
 							res.send(200);
 						}
 					} else {
@@ -24,12 +24,13 @@ var login = function(router, model) {
 						res.send(404);
 					}
 				})
-				.catch(error=> {
+				.catch(error => {
 					res.send(500);
 					console.log(error);
 				});
-			
+
 		});
+
 };
 
 module.exports = login;
