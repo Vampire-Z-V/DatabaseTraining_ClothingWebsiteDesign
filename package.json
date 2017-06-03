@@ -15,6 +15,7 @@
     "serve-favicon": "~2.4.2",
     "mysql": "2.11.1",
     "express-session": "1.15.2",
-    "sequelize": "3.24.1"
+    "sequelize": "3.24.1",
+    "express-mysql-session":"latest"
   }
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/panelstyle.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <h1><%= picture %></h1>
+            </div>
+        </div>
+        <div class="row">
+            <!--The photo on the left side-->
+            <div class="col-md-6 well photo-ontagging">
+                <img alt="140x140" src="/pictures/<%= picture %>" class="img-rounded" style="width: 400px" />
+            </div>
+            <!--The processing platform on the right side-->
+            <div class="col-md-5 col-xs-offset-1 well" id="process-panel">
+
+                <!--The place where we save the success labels and add labels-->
+                <div class="panel-show" id="success-label-panel-border">
+                    <!--&lt;!&ndash;Just a label sample&ndash;&gt;-->
+                    <!--<div class="panel panel-success">-->
+                    <!--<div class="panel-heading">-->
+                    <!--<table border="0" width="100%">-->
+                    <!--<tr>-->
+                    <!--<td class="td-title" width="90%">-->
+                    <!--<a class="collapse-panel-body" href="#">-->
+                    <!--<div style="width: inherit;">-->
+                    <!--<div class="icon-arrow"></div>-->
+                    <!--<span class="tag">标签i</span>-->
+                    <!--</div>-->
+                    <!--</a>-->
+                    <!--</td>-->
+
+                    <!--<td class="td-edit" style="text-align: center">-->
+                    <!--<span class="glyphicon glyphicon-edit icon-cross" style="margin-top: 2px"></span>-->
+                    <!--</td>-->
+                    <!--<td class="td-remove" style="text-align: center">-->
+                    <!--<a class="remove" href="#">-->
+                    <!--<span class="glyphicon glyphicon-trash icon-cross" style="margin-top: 2px"></span>-->
+                    <!--</a>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</table>-->
+
+                    <!--</div>-->
+                    <!--<div class="panel-collapse">-->
+                    <!--<div class="panel-body">-->
+                    <!--test i-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--Create a new label by this button-->
+                    
+                    <!--var items = [
+		                   ["棉", "米黄色","褐色","奢华","圆领"],
+		                   ["皮革", "紫色","黑色","运动","低腰"],
+		                   ["涤纶", "黄色","青色","简约","无图案"]
+	                                ]-->
+                    <% for(var i=0; i<items.length; i++) { %>
+                        <p><% for(var j=0; j<items[i].length; j++) { %>
+                             <%= items[i][j] %>
+                           <% } %></p>
+                    <% } %>
+                    <button class="btn btn-info btn-block" type="button" id="add-label">添加标签</button>
+                    <!--<a href="#">change</a>-->
+                </div>
+                <!--The place where we set the attributes in a label. This place is hidden first.-->
+                <div class="panel-show  panel-hide">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            jj
+                        </div>
+                        <div class="panel-body">
+                            ss
+                        </div>
+                    </div>
+
+                    <button class="btn btn-warning btn-block" type="button" id="return">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/process.js"></script>
+</body>
+
+</html>

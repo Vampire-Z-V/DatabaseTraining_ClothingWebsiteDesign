@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="/stylesheets/photo.css">
+</head>
+
+<body>
+  <form action="">
+    <div class="head">
+      <button type="submit">submit</button>
+    </div>
+  </form>
+  <br />
+  <div class="wall">
+    <p class="tag"> 待处理图片 </p>
+    <div class="photo-wall" id="waiting" onMouseOver="show_scroll(this);" onMouseOut="hide_scroll(this);">
+      <div class="horizontal-box">
+        <% for(var i=0; i<undo_pictures.length; i++) { %>
+          <a href='/home/project/<%= undo_pictures[i] %>'>
+          <img src="/pictures/<%= undo_pictures[i] %>" class="photo-onshow" />
+          </a>
+          <% } %>
+      </div>
+    </div>
+  </div>
+  <div class="wall">
+    <p class="tag"> 已处理图片 </p>
+    <div class="photo-wall" id="processed" onMouseOver="show_scroll(this);" onMouseOut="hide_scroll(this);">
+      <div class="horizontal-box">
+        <% for(var i=0; i<done_pictures.length; i++) { %>
+          <a href='/home/project/<%= done_pictures[i] %>'>
+          <img src="/pictures/<%= done_pictures[i] %>" class="photo-onshow" />
+          </a>
+          <% } %>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="/javascripts/photowallscroll.js"></script>
+</body>
+
+</html>
