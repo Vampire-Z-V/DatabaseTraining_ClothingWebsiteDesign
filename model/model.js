@@ -114,17 +114,6 @@ model.attrvalue = sequelize.define('attrValue', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
-model.item_labels = sequelize.define('item_labels', {
-	pic_id: Sequelize.INTEGER,
-	ID: Sequelize.STRING,
-	attrn_id: Sequelize.INTEGER,
-	attrValue: Sequelize.STRING,
-},
-	{
-		'freezeTableName': true,
-		'timestamps': false
-	});
-
 model.catagory = sequelize.define('catagory', {
 	cata_id: {
 		type: Sequelize.INTEGER,
@@ -132,6 +121,48 @@ model.catagory = sequelize.define('catagory', {
 		autoIncrement: true
 	},
 	cata_name: Sequelize.STRING,
+	parent_id: Sequelize.INTEGER
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
+model.items_catagory_view = sequelize.define('items_catagory_view', {
+	pic_id: Sequelize.INTEGER,
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	type: Sequelize.STRING,
+	group_name: Sequelize.STRING,
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
+model.items_attributes_view = sequelize.define('items_attributes_view', {
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	attrName: Sequelize.STRING,
+	attrValue: Sequelize.STRING
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
+model.attributes_view = sequelize.define('attributes_view', {
+	cata_name: Sequelize.STRING,
+	attrName: Sequelize.STRING,
+	attrValue: Sequelize.STRING,
+	cata_id: {
+		type: Sequelize.INTEGER,
+		primaryKey: true,
+	},
 	parent_id: Sequelize.INTEGER
 },
 	{

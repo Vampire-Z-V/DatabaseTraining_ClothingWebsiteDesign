@@ -5,57 +5,79 @@ var testgroups = require('../public/json/groups.json');
 
 var pid;
 
-var label = function(router, model) {
+var label = function (router, model) {
     router.get('/label', function (req, res) {
         var string = url.parse(req.url).query;
         var object = query.parse(string);
         pid = parseInt(object.pid);
         var path = object.path;
 
-
-        var datas = new Array();
-        var item_labels = model.item_labels;
+        //渲染到前端的数据，用数组的形式，里面存的是对象
+        var items_datas = new Array();
+        var groups_datas = new Array();
         var catagory = model.catagory;
         var attrname = model.attrname;
         var attrvalue = model.attrvalue;
         (async () => {
-            var finished_items = await item_labels.findAll({
+            var items_catagory_views = await model.items_catagory_view.findAll({
                 where: {
-                    pic_id: pid
+                    //pic_id: pid
+                    pic_id: 1
                 }
             });
-            var data = {//要传输的数据小块
-                ID: null,
-                values: new Array()
-            }
-            for (let p of finished_items) {
-                if (data.ID === null) {
-                    data.ID = p.ID;
-                    data.values.push(p.attrValue);
+            for (let p of items_catagory_views) {
+                var items_attributes_views = await model.items_attributes_view.findAll({
+                    where: {
+                        ID: p.ID
+                    }
+                });
+                var items_data = {
+                    ID: p.ID,
+                    type: p.type,
+                    group_name: p.group_name,
+                    attributes: new Array()
                 }
-                else if (data.ID === p.ID)
-                    data.values.push(p.attrValue);
-                else {
-                    datas.push(data);
-                    data = new Object();
-                    data.ID = p.ID;
-                    data.values = [];
-                    data.values.push(p.attrValue);
+                for (let q of items_attributes_views) {
+                    var attribute = {
+                        attr_name: q.attrName,
+                        attr_values: q.attrValue
+                    }
+                    items_data.attributes.push(attribute);
                 }
+                items_datas.push(items_data);
             }
-            datas.push(data);
-            console.log(JSON.stringify(datas));
-            console.log(JSON.stringify(testitems));
-            var catagories = await catagory.findAll({});
-            var group = new Array();
-            var subgroup = new Array();
+            //groups_data
+            var attributes_views = await model.attributes_view.findAll({});
+            var catagories = await model.catagory.findAll({
+                where: {
+                    parent_id: 1 //比较低的可扩展性
+                }
+            });
             for (let p of catagories) {
-                //console.log(JSON.stringify(p));
-                if (p.parent_id === 1)
-                    group.push(p);
-                else if (p.parent_id != null)
-                    subgroup.push(p);
+                var group_obj = {
+                    group: p.cata_name,
+                    types: new Array()
+                }
+                var sub_catagories = await model.catagory.findAll({
+                    where: {
+                        parent_id: p.cata_id
+                    }
+                });
+                for (let q of sub_catagories) {
+                    var type_obj = {
+                        type: q.cata_name,
+                        attributes: new Array()
+                    }
+                    for (let w of attributes_views) {
+                        if (w.cata_id === q.cata_id || w.parent_id == null ) {
+                            type_obj.attributes.push(w);
+                        }
+                    }
+                    group_obj.types.push(type_obj);
+                }
+                groups_datas.push(group_obj);
             }
+            //
             var attrnames = await attrname.findAll({});
             var attrn_group = new Array();
             for (let p of attrnames) {
@@ -67,15 +89,19 @@ var label = function(router, model) {
                 //console.log(JSON.stringify(p));
                 attrvalue_group.push(p);
             }
+            for (let p of groups_datas)
+                console.log(p.types);
             res.render("label", {
                 title: "Label Page",
                 path: path,
-                items: testitems,
-                group: group,
-                subgroup: subgroup,
+                //items: testitems,
+                items: items_datas,
+                //group: group,
+                //subgroup: subgroup,
                 attrn_group: attrn_group,
                 attrvalue_group: attrvalue_group,
-                groups: testgroups
+                //groups: testgroups
+                groups: groups_datas
             });
         })();
     });
@@ -119,12 +145,12 @@ var label = function(router, model) {
 
     router.route("/newlabel")
         .post(function (req, res) {
-            console.log(req.body);
+            //console.log(req.body);
             res.render('ejs/label.ejs', req.body);
         });
     router.route("/attributepage")
         .post(function (req, res) {
-            console.log(req.body);
+            //console.log(req.body);
             res.render('ejs/attributes.ejs', req.body);
         });
 }
