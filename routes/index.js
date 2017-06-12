@@ -7,6 +7,7 @@ var register = require('./register');
 var project = require('./project');
 var upload = require('./upload');
 var home = require('./home');
+var complete = require('./complete');
 var label = require('./label');
 
 /* GET home page. */
@@ -23,14 +24,9 @@ login(router, model);
 //注册路由
 register(router, model);
 
-// router.get('/home', function (req, res) {
-// 	if (!req.session.user) {
-// 		req.session.error = "请先登录";
-// 		res.redirect('/login');
-// 	}
-// 	res.render("home", { title: "Home" });
-// });
 home(router, model);
+
+complete(router, model);
 
 label(router, model);
 

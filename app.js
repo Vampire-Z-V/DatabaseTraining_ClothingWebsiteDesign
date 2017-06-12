@@ -68,6 +68,7 @@ app.use('/users', users);
 app.use('/login', routes);
 app.use('/register', routes);
 app.use('/home', routes);
+app.use('/complete', routes);
 app.use('/label', routes);
 app.use('/logout', routes);
 app.use('/upload', routes);
