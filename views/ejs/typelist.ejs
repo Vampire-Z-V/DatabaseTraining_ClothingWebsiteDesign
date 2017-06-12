@@ -1,0 +1,17 @@
+<% for(var i=0; i<groups.length; i++) { %>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a class="panel-title collapsed" href="#panel-element-<%= i %>" data-toggle="collapse" data-parent="#panel-parent-groups">
+                <%= groups[i].group %>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="panel-element-<%= i %>">
+            <div class="panel-body">
+                <% for(var j=0; j<groups[i].types.length; j++) { %>
+                    <a href="#"><span class="label label-default" father="<%= groups[i].group %>"><%= groups[i].types[j].type %></span></a>
+                <% } %>
+            </div>
+        </div>
+    </div>    
+<% } %>
+<button class="btn btn-warning btn-block" type="button" id="return-tags">返回</button>
