@@ -26,8 +26,10 @@
     <div class="panel-collapse">
         <div class="panel-body">
             <% item.attributes.forEach(function(attr) { %>
+                <% attr.attr_values.forEach(function(value) { %>
             
-                <span class="label label-info" name="<%= attr.attr_name %>"><%= attr.attr_values %></span>
+                    <span class="label label-info" name="<%= attr.attr_name %>"><%= value %></span>
+                <% }) %>
             <% }) %>
         </div>
     </div>
