@@ -1,0 +1,92 @@
+#process-panel {
+    height: 700px;
+    overflow-y: auto;
+    padding: 10px;
+
+}
+
+#photo-panel{
+    height: 700px;
+    text-align:center;
+}
+
+.panel-hide {
+    display: none;
+}
+
+.icon-arrow{
+    display: inline-block;
+    border-right: 3px solid;
+    border-bottom: 3px solid;
+    width: 9px; height: 9px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+.panel-body-open > div .icon-arrow {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.photo-ontagging {
+    overflow: hidden;
+}
+
+.blank{
+    width: 5px;
+}
+
+.icon-cross, .icon-arrow {
+    color: #289fc4;
+}
+
+.icon-cross:hover {
+    color: #ff0000;
+}
+
+.icon-cross:active {
+    color: #cc0000
+}
+
+a:hover, a:link, a:active, a:visited {
+    text-decoration: none;
+}
+.tag{
+    color: #000000;
+}
+.collapse-panel-body{
+    padding-left: 0px;
+
+}
+
+hr {
+    height: 1px;
+    border: none;
+    border-top: 1px dashed #000000;
+}
+
+img{
+    /*margin-bottom: 10px;*/
+    height: 100%;
+    /*vertical-align: middle;*/
+}
+
+.panel-body label {
+    
+    
+    cursor: pointer;
+}
+
+.panel-body input[type=checkbox]:checked + label .label,
+.panel-body input[type=radio]:checked + label .label{
+    background: #26ca28;
+}
+
+label .label{
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}

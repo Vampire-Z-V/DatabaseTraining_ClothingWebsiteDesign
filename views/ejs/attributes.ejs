@@ -1,0 +1,31 @@
+<h3><%= group %>: <%= type %></h3>
+<hr/>
+
+<% for(var i=0; i<attributes.length; i++) { %>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a class="panel-title collapsed" href="#subpanel-element-<%= i %>" data-toggle="collapse" data-parent="#panel-parent-attr">
+                <%= attributes[i].attr_name %>
+                <% if(attributes[i].multi) { %>
+                    (可多选)
+                <% } %>  
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="subpanel-element-<%= i %>">
+            <div class="panel-body">
+                <% for(var j=0; j<attributes[i].attr_values.length; j++) { %>
+                    <% if(attributes[i].multi) { %>
+                        <input type="checkbox" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
+                    <% } else { %>
+                        <input type="radio" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
+                    <% } %> 
+                    <label for="<%= i %>_<%= j %>">
+                        <span class="label label-default"><%= attributes[i].attr_values[j] %></span>
+                    </label>
+                <% } %>
+            </div>
+        </div>
+    </div>    
+<% } %>  
+<button class="btn btn-success btn-block" type="button" id="submit-item" disabled>提交</button>
+<button class="btn btn-warning btn-block" type="button" id="return-groups">返回</button>
