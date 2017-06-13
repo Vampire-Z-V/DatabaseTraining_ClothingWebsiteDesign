@@ -58,49 +58,55 @@ var Upload = function(router, model) {
 				// 		});
 				// 	} 
 				// });
-				Project.create({pro_id: null, pro_name: name, pro_status:'undo'})
-					.then(data=>{
-						console.log(data.get({plain:true}));
-						console.log(typeof NonShowedPhoto);
-						console.log(typeof ShowedPhoto);
-						console.log(Pictures);
-						NonShowedPhoto.forEach(function(item) {
-							Pictures.create({
-								pic_id: null, 
-								pic_path: item.filename, 
-								pic_status: 'done', 
-								pro_id: data.pro_id})
-								.then(data=>{
-									console.log('success');
-									success = true;
-								})
-								//创建失败
-								.catch(err=>{
-									console.log(err);
-									
+				if(NonShowedPhoto || ShowedPhoto) {
+					Project.create({pro_id: null, pro_name: name, pro_status:'undo'})
+						.then(data=>{
+							if(NonShowedPhoto){
+								NonShowedPhoto.forEach(function(item) {
+									Pictures.create({
+										pic_id: null, 
+										pic_path: item.filename, 
+										pic_status: 'done', 
+										pro_id: data.pro_id})
+										.then(data=>{
+											console.log('success');
+											success = true;
+										})
+										//创建失败
+										.catch(err=>{
+											console.log(err);
+											
+										});
 								});
-						});
-						ShowedPhoto.forEach(function(item) {
-							Pictures.create({
-								pic_id: null, 
-								pic_path: item.filename, 
-								pic_status: 'undo', 
-								pro_id: data.pro_id})
-								.then(data=>{
-									console.log('success');
-									if(success)
-										res.redirect('/home');
-								})
-								//创建失败
-								.catch(err=>{
-									console.log(err);
+							}
+							if(ShowedPhoto) {
+								ShowedPhoto.forEach(function(item) {
+									Pictures.create({
+										pic_id: null, 
+										pic_path: item.filename, 
+										pic_status: 'undo', 
+										pro_id: data.pro_id})
+										.then(data=>{
+											console.log('success');
+											success = true;
+										})
+										//创建失败
+										.catch(err=>{
+											console.log(err);
+										});
 								});
+							}
+						})
+						.catch(err=>{
+							console.log(err);
 						});
-
-					})
-					.catch(err=>{
-						console.log(err);
-					});
+					if(success)
+						res.redirect('/home');
+				}
+				else{
+					req.session.error = "请选择图片";
+					res.redirect('/upload');
+				}
 		});
 };
 
