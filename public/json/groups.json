@@ -1,0 +1,472 @@
+[
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "黑"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "牛仔裤"
+      }
+    ],
+    "group": "下装"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "面料"
+          },
+          {
+            "attr_values": [
+              "黑",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "T恤衫"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "牛仔裤"
+      }
+    ],
+    "group": "裙子"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "牛仔裤"
+      }
+    ],
+    "group": "上衣"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "黑"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "T恤衫"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "T恤衫"
+      }
+    ],
+    "group": "上衣"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "面料"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "牛仔裤"
+      }
+    ],
+    "group": "裙子"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "黑"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "黑"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "黑"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "T恤衫"
+      }
+    ],
+    "group": "下装"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": true,
+            "attr_name": "面料"
+          },
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "连衣裙"
+      }
+    ],
+    "group": "上衣"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "T恤衫"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          },
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "风格"
+          }
+        ],
+        "type": "连衣裙"
+      }
+    ],
+    "group": "上衣"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "布",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "布",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "T恤衫"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "黑",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "面料"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "黑"
+            ],
+            "multi": true,
+            "attr_name": "面料"
+          }
+        ],
+        "type": "牛仔裤"
+      }
+    ],
+    "group": "上衣"
+  },
+  {
+    "types": [
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "时尚"
+            ],
+            "multi": false,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "时尚",
+              "布"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "牛仔裤"
+      },
+      {
+        "attributes": [
+          {
+            "attr_values": [
+              "时尚",
+              "黑"
+            ],
+            "multi": true,
+            "attr_name": "颜色"
+          },
+          {
+            "attr_values": [
+              "黑",
+              "布"
+            ],
+            "multi": false,
+            "attr_name": "颜色"
+          }
+        ],
+        "type": "T恤衫"
+      }
+    ],
+    "group": "裙子"
+  }
+]
