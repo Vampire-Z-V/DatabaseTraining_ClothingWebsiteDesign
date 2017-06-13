@@ -33,8 +33,20 @@ $("#add-label").click(function () {
         });
     });
 });
-$("#submit").click(function(){
-    alert(JSON.stringify(datas));
+$("#submit").click(function () {
+    //alert(JSON.stringify(datas));
+    // $.post("/label", { data: datas }, function (data, status) {
+    //     alert("Data: " + data + "\nStatus: " + status);
+    // });
+    $.ajax({
+        type: 'POST',
+        url: "/label",
+        data: JSON.stringify({data:datas}),
+        contentType: 'application/json',
+        success: function (data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+        }
+    });
 });
 
 $(".panel-show").delegate('.collapse-panel-body', 'click', function () {
