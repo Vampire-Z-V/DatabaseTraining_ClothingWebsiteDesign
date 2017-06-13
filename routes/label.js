@@ -33,6 +33,7 @@ var label = function (router, model) {
                 var items_data = {
                     ID: p.ID,
                     type: p.type,
+
                     group: p.group_name,
                     attributes: new Array()
                 }
@@ -52,6 +53,7 @@ var label = function (router, model) {
                         }
                         items_data.attributes.push(attribute);
                     }
+
                 }
                 items_datas.push(items_data);
             }
@@ -78,6 +80,7 @@ var label = function (router, model) {
                         attributes: new Array()
                     }
                     for (let w of attributes_views) {
+
                         if (w.cata_id === q.cata_id || w.parent_id == null) {
                             //先到attributes里面找，若找得到
                             var exist = false;
@@ -96,6 +99,7 @@ var label = function (router, model) {
                                 }
                                 type_obj.attributes.push(attribute_obj);
                             }
+
                         }
                     }
                     group_obj.types.push(type_obj);
@@ -114,6 +118,7 @@ var label = function (router, model) {
                 //console.log(JSON.stringify(p));
                 attrvalue_group.push(p);
             }
+
             res.render("label", {
                 title: "Label Page",
                 path: path,
