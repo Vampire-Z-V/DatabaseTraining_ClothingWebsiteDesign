@@ -15,9 +15,6 @@ var label = function (router, model) {
         //渲染到前端的数据，用数组的形式，里面存的是对象
         var items_datas = new Array();
         var groups_datas = new Array();
-        var catagory = model.catagory;
-        var attrname = model.attrname;
-        var attrvalue = model.attrvalue;
         (async () => {
             var items_catagory_views = await model.items_catagory_view.findAll({
                 where: {
@@ -51,7 +48,7 @@ var label = function (router, model) {
                             attr_name: q.attrName,
                             attr_values: new Array()
                         }
-                        items_data.attributes.push(attribute);
+                        items_data.attributes.push(attribute_obj);
                     }
 
                 }
@@ -67,6 +64,7 @@ var label = function (router, model) {
             for (let p of catagories) {
                 var group_obj = {
                     group: p.cata_name,
+                    group_id: p.cata_id,
                     types: new Array()
                 }
                 var sub_catagories = await model.catagory.findAll({
@@ -77,6 +75,7 @@ var label = function (router, model) {
                 for (let q of sub_catagories) {
                     var type_obj = {
                         type: q.cata_name,
+                        type_id: q.type_id,
                         attributes: new Array()
                     }
                     for (let w of attributes_views) {
@@ -88,14 +87,17 @@ var label = function (router, model) {
                                 if (e.attr_name == w.attrName) {
                                     exist = true;
                                     e.attr_values.push(w.attrValue);
+                                    e.attrv_ids.push(w.attrv_id);
                                     break;
                                 }
                             }
                             if (!exist) {
                                 var attribute_obj = {
                                     attr_name: w.attrName,
-                                    multi: true,//default
-                                    attr_values: new Array()
+                                    attrn_id: w.attrn_id,
+                                    attr_values: new Array(),
+                                    attrv_ids: new Array(),
+                                    multi: w.multi,
                                 }
                                 type_obj.attributes.push(attribute_obj);
                             }
@@ -106,28 +108,11 @@ var label = function (router, model) {
                 }
                 groups_datas.push(group_obj);
             }
-            //
-            var attrnames = await attrname.findAll({});
-            var attrn_group = new Array();
-            for (let p of attrnames) {
-                attrn_group.push(p);
-            }
-            var attrvalues = await attrvalue.findAll({});
-            var attrvalue_group = new Array();
-            for (let p of attrvalues) {
-                //console.log(JSON.stringify(p));
-                attrvalue_group.push(p);
-            }
-
             res.render("label", {
                 title: "Label Page",
                 path: path,
                 //items: testitems,
                 items: items_datas,
-                //group: group,
-                //subgroup: subgroup,
-                attrn_group: attrn_group,
-                attrvalue_group: attrvalue_group,
                 //groups: testgroups
                 groups: groups_datas
             });
@@ -137,38 +122,43 @@ var label = function (router, model) {
         var item = model.item;
         var attrtable = model.attrTable;
         var attrvalue = model.attrValue;
-        item.create({
-            ID: "005",
-            cata_id: req.body.cata_id,
-            pic_id: pid,
-            createTime: Date.now()
-        }).then(function (p) {
-            console.log('created.' + JSON.stringify(p));
-        }).catch(function (err) {
-            console.log('failed: ' + err);
-        });
-        attrvalue.findAll({
-        }).then(function (p) {
-            for (let a of p) {
-                //console.log(typeof(a.attrv_id));
-                for (let b of req.body.attribute) {
-                    // === 是值和类型都相同 == 的话条件松一些
-                    if (b == a.attrv_id) {
-                        attrtable.create({
-                            ID: "005",
-                            attrn_id: a.attrn_id,
-                            attrv_id: b
-                        }).then(function (q) {
-                            console.log('created.' + JSON.stringify(q));
-                        }).catch(function (err) {
-                            console.log('failed: ' + err);
-                        });
-                    }
-                }
-            }
-        }).catch(function (err) {
-            console.log('failed: ' + err);
-        });
+        //console.log(req.body);
+        //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
+        var ID = new Date();
+        console.log((ID.getFullYear().toString()).substr(-2));
+        console.log(JSON.stringify(req.body.data[0]));
+        // item.create({
+        //     ID: "005",
+        //     cata_id: req.body.cata_id,
+        //     pic_id: pid,
+        //     createTime: Date.now()
+        // }).then(function (p) {
+        //     console.log('created.' + JSON.stringify(p));
+        // }).catch(function (err) {
+        //     console.log('failed: ' + err);
+        // });
+        // attrvalue.findAll({
+        // }).then(function (p) {
+        //     for (let a of p) {
+        //         //console.log(typeof(a.attrv_id));
+        //         for (let b of req.body.attribute) {
+        //             // === 是值和类型都相同 == 的话条件松一些
+        //             if (b == a.attrv_id) {
+        //                 attrtable.create({
+        //                     ID: "005",
+        //                     attrn_id: a.attrn_id,
+        //                     attrv_id: b
+        //                 }).then(function (q) {
+        //                     console.log('created.' + JSON.stringify(q));
+        //                 }).catch(function (err) {
+        //                     console.log('failed: ' + err);
+        //                 });
+        //             }
+        //         }
+        //     }
+        // }).catch(function (err) {
+        //     console.log('failed: ' + err);
+        // });
     });
 
     router.route("/newlabel")

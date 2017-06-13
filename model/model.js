@@ -156,14 +156,17 @@ model.items_attributes_view = sequelize.define('items_attributes_view', {
 	});
 
 model.attributes_view = sequelize.define('attributes_view', {
-	cata_name: Sequelize.STRING,
-	attrName: Sequelize.STRING,
-	attrValue: Sequelize.STRING,
 	cata_id: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
 	},
-	parent_id: Sequelize.INTEGER
+	cata_name: Sequelize.STRING,
+	attrn_id:Sequelize.INTEGER,
+	attrName: Sequelize.STRING,
+	attrv_id:Sequelize.INTEGER,
+	attrValue: Sequelize.STRING,
+	parent_id: Sequelize.INTEGER,
+	multi:Sequelize.BOOLEAN
 },
 	{
 		'freezeTableName': true,
