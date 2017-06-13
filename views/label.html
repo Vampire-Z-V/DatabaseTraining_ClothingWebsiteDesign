@@ -17,19 +17,24 @@
 
 <body>
   <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header navbar-brand"> 服装商城管理系统 </div>
-      <div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/home">未完成任务</a></li>
-          <li><a href="#">已完成任务</a></li>
-          <li><a href="#">创建任务</a></li>
-          <li><a href="#">欢迎,<%= user.name %></a></li>
-          <li><a href="/logout">注销</a></li>
-        </ul>
+
+      <div class="container-fluid">
+        <div class="navbar-header navbar-brand" >
+            服装商城管理系统
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/home">未完成任务</a></li>
+              <li><a href="/complete">已完成任务</a></li>
+              <li><a href="/upload">创建任务</a></li>
+                <li><a href="#">欢迎,<%= user.name %></a></li>
+                <li><a href="/logout">注销</a></li>
+            </ul>
+        </div>
       </div>
-    </div>
   </nav>
+  
+
   <div class="container">
     <div class="row-fluid">
       <div class="col-md-12">

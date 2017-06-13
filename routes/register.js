@@ -9,6 +9,7 @@ var register = function(router, model) {
             var upwd = req.body.upwd;
             console.log(req.body.uname, req.body.upwd);
 
+
             user.findOne({where: {name: uname}})
                 .then(project=> {
                     if(project) {

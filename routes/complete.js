@@ -1,16 +1,15 @@
-var home = function (router, model) {
+var complete = function (router, model) {
 	var project = model.project;
-	router.route("/home")
+	router.route("/complete")
 		.get(function (req, res) {
 			if (!req.session.user) {
                 req.session.error = "请先登录";
                 res.redirect('/login');
             }
 
-
-            project.findAll({where:{pro_status : 'undo'}})
+            project.findAll({where:{pro_status : 'done'}})
             	.then(data=>{
-            		res.render("home", { projects: data});
+            		res.render("complete", { projects: data});
             	})
             	.catch(err=>{
             		console.log(err);
@@ -20,4 +19,4 @@ var home = function (router, model) {
 		});
 };
 
-module.exports = home;
+module.exports = complete;
