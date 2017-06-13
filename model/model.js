@@ -65,6 +65,7 @@ model.items = sequelize.define('items', {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	item_name:Sequelize.STRING,
 	cata_id: Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	createTime: Sequelize.DATE
@@ -73,7 +74,7 @@ model.items = sequelize.define('items', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
-model.attrtable = sequelize.define('attrTable', {
+model.attrTable = sequelize.define('attrTable', {
 	// attrTable_id: {
 	// 	type: Sequelize.INTEGER,
 	// 	primaryKey: true,
