@@ -58,6 +58,7 @@ var Upload = function(router, model) {
 				// 		});
 				// 	} 
 				// });
+
 				if(NonShowedPhoto || ShowedPhoto) {
 					Project.create({pro_id: null, pro_name: name, pro_status:'undo'})
 						.then(data=>{
@@ -107,6 +108,7 @@ var Upload = function(router, model) {
 					req.session.error = "请选择图片";
 					res.redirect('/upload');
 				}
+
 		});
 };
 

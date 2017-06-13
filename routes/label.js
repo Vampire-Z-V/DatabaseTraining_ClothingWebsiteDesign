@@ -33,15 +33,27 @@ var label = function (router, model) {
                 var items_data = {
                     ID: p.ID,
                     type: p.type,
-                    group_name: p.group_name,
+
+                    group: p.group_name,
                     attributes: new Array()
                 }
                 for (let q of items_attributes_views) {
-                    var attribute = {
-                        attr_name: q.attrName,
-                        attr_values: q.attrValue
+                    var exist = false;
+                    for (let w of items_data.attributes) {
+                        if (w.attr_name == q.attrName) {
+                            exist = true;
+                            w.attr_values.push(q.attrValue);
+                            break;
+                        }
                     }
-                    items_data.attributes.push(attribute);
+                    if (!exist) {
+                        var attribute_obj = {
+                            attr_name: q.attrName,
+                            attr_values: new Array()
+                        }
+                        items_data.attributes.push(attribute);
+                    }
+
                 }
                 items_datas.push(items_data);
             }
@@ -68,8 +80,26 @@ var label = function (router, model) {
                         attributes: new Array()
                     }
                     for (let w of attributes_views) {
-                        if (w.cata_id === q.cata_id || w.parent_id == null ) {
-                            type_obj.attributes.push(w);
+
+                        if (w.cata_id === q.cata_id || w.parent_id == null) {
+                            //先到attributes里面找，若找得到
+                            var exist = false;
+                            for (let e of type_obj.attributes) {
+                                if (e.attr_name == w.attrName) {
+                                    exist = true;
+                                    e.attr_values.push(w.attrValue);
+                                    break;
+                                }
+                            }
+                            if (!exist) {
+                                var attribute_obj = {
+                                    attr_name: w.attrName,
+                                    multi: true,//default
+                                    attr_values: new Array()
+                                }
+                                type_obj.attributes.push(attribute_obj);
+                            }
+
                         }
                     }
                     group_obj.types.push(type_obj);
@@ -88,8 +118,7 @@ var label = function (router, model) {
                 //console.log(JSON.stringify(p));
                 attrvalue_group.push(p);
             }
-            for (let p of groups_datas)
-                console.log(p.types);
+
             res.render("label", {
                 title: "Label Page",
                 path: path,

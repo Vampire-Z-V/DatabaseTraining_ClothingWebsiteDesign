@@ -18,7 +18,9 @@
         <div>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="/home">未完成任务</a></li>
+
               <li><a href="/complete">已完成任务</a></li>
+
               <li><a href="/upload">创建任务</a></li>
                 <li><a href="#">欢迎,<%= user.name %></a></li>
                 <li><a href="/logout">注销</a></li>
@@ -26,7 +28,7 @@
         </div>
       </div>
   </nav>
-  
+
     <h1 style="text-align: center"><%= title %></h1>
     <form method="post" enctype="multipart/form-data">
 	    <ul class="list-group">
@@ -44,6 +46,7 @@
 				<div>
 					<!-- multiple是html5的新属性 -->
 					<input type="file" name="NonShowedPhoto" id="NonShowedPhoto" accept="image/jpeg,image/png" multiple>
+
 				</div>
 			</li>
 

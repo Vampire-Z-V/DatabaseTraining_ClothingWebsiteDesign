@@ -7,6 +7,7 @@ var home = function (router, model) {
                 res.redirect('/login');
             }
 
+
             project.findAll({where:{pro_status : 'undo'}})
             	.then(data=>{
             		res.render("home", { projects: data});
