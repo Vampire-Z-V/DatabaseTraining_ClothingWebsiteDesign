@@ -1,0 +1,32 @@
+/* CSS Document */
+
+.photo-wall {
+	/*background-color: #ED6769;*/
+/*
+	height: 130px;
+	width: 600px;
+*/
+	overflow-x: hidden;
+	overflow-y: hidden;
+	
+}
+
+.horizontal-box{
+/*	background-color: aquamarine;*/
+	width: 3000px;
+	height: 130px;
+/*	margin: auto;*/
+}
+
+.photo-onshow{
+	height: 280px;
+	width: 200px;
+	margin-top: 20px;
+	margin-left: 10px;	
+	margin-bottom: 20px;
+	float: left;
+}
+
+.photo-ontagging{
+	overflow: hidden;
+}
