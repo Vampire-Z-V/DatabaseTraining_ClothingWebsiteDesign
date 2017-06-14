@@ -110,9 +110,7 @@ var label = function (router, model) {
             res.render("label", {
                 title: "Label Page",
                 path: path,
-                //items: testitems,
                 items: items_datas,
-                //groups: testgroups
                 groups: groups_datas
             });
         })();

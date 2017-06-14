@@ -143,6 +143,25 @@ model.items_catagory_view = sequelize.define('items_catagory_view', {
 		'timestamps': false
 	});
 
+model.items_sales_view = sequelize.define('items_sales_view', {
+	pic_id: Sequelize.INTEGER,
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	type: Sequelize.STRING,
+	group_name: Sequelize.STRING,
+	annualsales:Sequelize.INTEGER,
+	mounthlysales:Sequelize.INTEGER,
+	region_id:Sequelize.INTEGER,
+	channel:Sequelize.STRING,
+	agegroup:Sequelize.STRING
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
 model.items_attributes_view = sequelize.define('items_attributes_view', {
 	ID: {
 		type: Sequelize.STRING,

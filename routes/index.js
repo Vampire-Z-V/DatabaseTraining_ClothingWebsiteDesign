@@ -7,6 +7,7 @@ var register = require('./register');
 var project = require('./project');
 var upload = require('./upload');
 var home = require('./home');
+var designer = require('./designer')
 
 var complete = require('./complete');
 
@@ -26,11 +27,11 @@ login(router, model);
 //注册路由
 register(router, model);
 
-
 home(router, model);
 
-complete(router, model);
+designer(router, model);
 
+complete(router, model);
 
 label(router, model);
 
