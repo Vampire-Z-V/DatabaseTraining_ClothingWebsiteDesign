@@ -22,6 +22,7 @@ model.user = sequelize.define('user', {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	user_type:Sequelize.ENUM('系统管理员','服装设计师','销售管理员'),
 	name: Sequelize.STRING(20),
 	password: Sequelize.STRING(20),
 	//因为在将sequelize函数转换为mysql语句的时候，会自动添加createdAt和updatedAt这两个属性
@@ -130,6 +131,7 @@ model.catagory = sequelize.define('catagory', {
 	});
 
 model.items_catagory_view = sequelize.define('items_catagory_view', {
+	item_name:Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
@@ -144,6 +146,7 @@ model.items_catagory_view = sequelize.define('items_catagory_view', {
 	});
 
 model.items_sales_view = sequelize.define('items_sales_view', {
+	item_name:Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,

@@ -46,12 +46,10 @@ var designer = function (router, model) {
 					}
 					items_sales_data.push(items_data);
 				}
-				for(let p of items_sales_data)
-				  console.log(JSON.stringify(p));
-				// res.render("designer", {
-				// 	title: "Designer Page",
-				// 	items_sales_data: items_sales_data,
-				// });
+				res.render("designer", {
+					title: "Designer Page",
+					items_sales_data: items_sales_data,
+				});
 			})();
 		});
 };

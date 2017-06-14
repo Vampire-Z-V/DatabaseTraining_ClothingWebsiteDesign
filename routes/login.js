@@ -17,7 +17,8 @@ var login = function (router, model) {
 							res.send(404);
 						} else {
 							req.session.user = p;
-							res.send(200);
+							//res.send(200);
+							res.send(p.user_type);
 						}
 					} else {
 						req.session.error = "用户不存在";
