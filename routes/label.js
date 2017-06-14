@@ -28,9 +28,9 @@ var label = function (router, model) {
                     }
                 });
                 var items_data = {
+                    item_name:p.item_name,
                     ID: p.ID,
                     type: p.type,
-
                     group: p.group_name,
                     attributes: new Array()
                 }
@@ -79,8 +79,8 @@ var label = function (router, model) {
                         attributes: new Array()
                     }
                     for (let w of attributes_views) {
-
-                        if (w.cata_id === q.cata_id || w.parent_id == null) {
+                        //扩展性较低，可采用额外加一个查询，即自底向上的递归查询，获得该子种类的所有父种类
+                        if (w.cata_id === q.parent_id|| w.cata_id === q.cata_id || w.parent_id == null) {
                             //先到attributes里面找，若找得到
                             var exist = false;
                             for (let e of type_obj.attributes) {
@@ -101,7 +101,6 @@ var label = function (router, model) {
                                 }
                                 type_obj.attributes.push(attribute_obj);
                             }
-
                         }
                     }
                     group_obj.types.push(type_obj);
