@@ -1,4 +1,5 @@
 <h3><%= group %>: <%= type %></h3>
+<input id="item-name" type="text" placeholder="item name" maxlength="4">
 <hr/>
 
 <% for(var i=0; i<attributes.length; i++) { %>
@@ -15,12 +16,12 @@
             <div class="panel-body">
                 <% for(var j=0; j<attributes[i].attr_values.length; j++) { %>
                     <% if(attributes[i].multi) { %>
-                        <input type="checkbox" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
+                        <input type="checkbox" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" attrn-id="<%= attributes[i].attrn_id %>" style="display: none;" />
                     <% } else { %>
-                        <input type="radio" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
+                        <input type="radio" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" attrn-id="<%= attributes[i].attrn_id %>" style="display: none;" />
                     <% } %> 
                     <label for="<%= i %>_<%= j %>">
-                        <span class="label label-default"><%= attributes[i].attr_values[j] %></span>
+                        <span class="label label-default" attrv-id="<%= attributes[i].attrv_ids[j] %>"><%= attributes[i].attr_values[j] %></span>
                     </label>
                 <% } %>
             </div>
