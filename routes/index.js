@@ -15,9 +15,13 @@ var label = require('./label');
 
 /* GET home page. */
 //test
-router.get('/', function (req, res, next) {
+router.get('/', function(req,res){
+	res.redirect('/index');
+});
+
+router.get('/index', function (req, res, next) {
 	res.render('index', {
-		title: 'Express'
+		title: 'Welcome'
 	});
 });
 
@@ -38,7 +42,7 @@ label(router, model);
 router.get('/logout', function (req, res) {
 	req.session.user = null;
 	req.session.error = null;
-	res.redirect('/');
+	res.redirect('/index');
 });
 
 upload(router, model);

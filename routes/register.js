@@ -17,8 +17,11 @@ var register = function(router, model) {
                         res.send(500);
                         console.log(req.session.error);
                     } else {
-                        user.create({ID:0, name: uname, password: upwd})
-                            .then(project=> {
+                        user.create({
+                            ID:0, 
+                            name: uname,
+                            password: upwd
+                        }).then(project=> {
                                 req.session.error = "用户创建成功";
                                 res.send(200);
                                 console.log(req.session.error);
