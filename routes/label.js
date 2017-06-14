@@ -145,31 +145,31 @@ var label = function (router, model) {
                 }
             ]
         };
-        item.create({
-            ID: "1723001",
-            item_name:test_data.item_name,
-            cata_id: test_data.type_id,
-            pic_id: pid,
-            createTime: Date.now()
-        }).then(function (p) {
-            console.log('created.' + JSON.stringify(p));
-        }).catch(function (err) {
-            console.log('failed: ' + err);
-        });
-        for (let p of test_data.attributes) {
-            var attrn_id = p.attrn_id;
-            for (let q of p.attrv_ids) {
-                attrtable.create({
-                    ID: "1723001",
-                    attrn_id: attrn_id,
-                    attrv_id: q
-                }).then(function (p) {
-                    console.log('created.' + JSON.stringify(p));
-                }).catch(function (err) {
-                    console.log('failed: ' + err);
-                });
-            }
-        }
+        // item.create({
+        //     ID: "1723001",
+        //     item_name:test_data.item_name,
+        //     cata_id: test_data.type_id,
+        //     pic_id: pid,
+        //     createTime: Date.now()
+        // }).then(function (p) {
+        //     console.log('created.' + JSON.stringify(p));
+        // }).catch(function (err) {
+        //     console.log('failed: ' + err);
+        // });
+        // for (let p of test_data.attributes) {
+        //     var attrn_id = p.attrn_id;
+        //     for (let q of p.attrv_ids) {
+        //         attrtable.create({
+        //             ID: "1723001",
+        //             attrn_id: attrn_id,
+        //             attrv_id: q
+        //         }).then(function (p) {
+        //             console.log('created.' + JSON.stringify(p));
+        //         }).catch(function (err) {
+        //             console.log('failed: ' + err);
+        //         });
+        //     }
+        // }
     });
 
     router.route("/newlabel")
