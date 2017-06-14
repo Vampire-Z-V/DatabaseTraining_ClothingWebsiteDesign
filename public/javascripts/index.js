@@ -77,7 +77,10 @@ $(document).ready(function () {
             data: data,
             success: function (data, status) {
                 if (status == 'success') {
-                    location.href = 'home';
+                    if (data == '服装设计师')
+                        location.href = 'designer';
+                    else
+                        location.href = 'home';
                 }
             },
             error: function (data, status) {

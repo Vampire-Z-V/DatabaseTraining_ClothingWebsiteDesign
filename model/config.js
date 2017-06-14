@@ -3,7 +3,7 @@
 //     database:'database_project',
 //     username:'database_admin',
 //     password: 'database123456', // 口令
-//     cookieSecret:"shit",
+//     cookieSecret:"secret",
 //     port: 3306 // 端口号，MySQL默认3306
 // }
 // var config = {
@@ -11,7 +11,7 @@
 //     database:'db_train',
 //     username:'root',
 //     password: 'djy2080683', // 口令
-//     cookieSecret:"shit",
+//     cookieSecret:"secret",
 //     port: 3306 // 端口号，MySQL默认3306
 // }
 var config = {
@@ -19,7 +19,7 @@ var config = {
     database:'DBtrain',
     username:'root',
     password: 'software2017', // 口令
-    cookieSecret:"shit",
+    cookieSecret:"secret",
     port: 3306 // 端口号，MySQL默认3306
 }
 

@@ -7,8 +7,8 @@ var register = function(router, model) {
             var user = model.user;
             var uname = req.body.uname;
             var upwd = req.body.upwd;
-            console.log(req.body.uname, req.body.upwd);
-
+            var utype = req.body.utype;
+            console.log(req.body);
 
             user.findOne({where: {name: uname}})
                 .then(project=> {
@@ -20,6 +20,7 @@ var register = function(router, model) {
                         user.create({
                             ID:0, 
                             name: uname,
+                            user_type:utype,
                             password: upwd
                         }).then(project=> {
                                 req.session.error = "用户创建成功";

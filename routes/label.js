@@ -28,9 +28,9 @@ var label = function (router, model) {
                     }
                 });
                 var items_data = {
+                    item_name:p.item_name,
                     ID: p.ID,
                     type: p.type,
-
                     group: p.group_name,
                     attributes: new Array()
                 }
@@ -79,8 +79,8 @@ var label = function (router, model) {
                         attributes: new Array()
                     }
                     for (let w of attributes_views) {
-
-                        if (w.cata_id === q.cata_id || w.parent_id == null) {
+                        //扩展性较低，可采用额外加一个查询，即自底向上的递归查询，获得该子种类的所有父种类
+                        if (w.cata_id === q.parent_id|| w.cata_id === q.cata_id || w.parent_id == null) {
                             //先到attributes里面找，若找得到
                             var exist = false;
                             for (let e of type_obj.attributes) {
@@ -101,7 +101,6 @@ var label = function (router, model) {
                                 }
                                 type_obj.attributes.push(attribute_obj);
                             }
-
                         }
                     }
                     group_obj.types.push(type_obj);
@@ -111,25 +110,45 @@ var label = function (router, model) {
             res.render("label", {
                 title: "Label Page",
                 path: path,
-                //items: testitems,
                 items: items_datas,
-                //groups: testgroups
                 groups: groups_datas
             });
         })();
     });
     router.post('/label', function (req, res) {
-        var item = model.item;
+        var item = model.items;
         var attrtable = model.attrTable;
         var attrvalue = model.attrValue;
-        //console.log(req.body);
+        console.log(req.body);
         //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
         var ID = new Date();
         console.log((ID.getFullYear().toString()).substr(-2));
-        console.log(JSON.stringify(req.body.data[0]));
+        //console.log(JSON.stringify(req.body.data[0]));
+        var test_data = {
+            item_name:"2017最新潮流T——shirt",
+            group: '上衣',
+            group_id: 1,
+            type: 'T恤衫',
+            type_id: 21,
+            attributes: [
+                {
+                    attr_name: '颜色',
+                    attrn_id: 1,
+                    attr_values: ['黑', '白'],
+                    attrv_ids: [1, 2]
+                },
+                {
+                    attr_name: '面料',
+                    attrn_id: 2,
+                    attr_values: ['棉', '涤纶'],
+                    attrv_ids: [11, 12]
+                }
+            ]
+        };
         // item.create({
-        //     ID: "005",
-        //     cata_id: req.body.cata_id,
+        //     ID: "1723001",
+        //     item_name:test_data.item_name,
+        //     cata_id: test_data.type_id,
         //     pic_id: pid,
         //     createTime: Date.now()
         // }).then(function (p) {
@@ -137,28 +156,20 @@ var label = function (router, model) {
         // }).catch(function (err) {
         //     console.log('failed: ' + err);
         // });
-        // attrvalue.findAll({
-        // }).then(function (p) {
-        //     for (let a of p) {
-        //         //console.log(typeof(a.attrv_id));
-        //         for (let b of req.body.attribute) {
-        //             // === 是值和类型都相同 == 的话条件松一些
-        //             if (b == a.attrv_id) {
-        //                 attrtable.create({
-        //                     ID: "005",
-        //                     attrn_id: a.attrn_id,
-        //                     attrv_id: b
-        //                 }).then(function (q) {
-        //                     console.log('created.' + JSON.stringify(q));
-        //                 }).catch(function (err) {
-        //                     console.log('failed: ' + err);
-        //                 });
-        //             }
-        //         }
+        // for (let p of test_data.attributes) {
+        //     var attrn_id = p.attrn_id;
+        //     for (let q of p.attrv_ids) {
+        //         attrtable.create({
+        //             ID: "1723001",
+        //             attrn_id: attrn_id,
+        //             attrv_id: q
+        //         }).then(function (p) {
+        //             console.log('created.' + JSON.stringify(p));
+        //         }).catch(function (err) {
+        //             console.log('failed: ' + err);
+        //         });
         //     }
-        // }).catch(function (err) {
-        //     console.log('failed: ' + err);
-        // });
+        // }
     });
 
     router.route("/newlabel")
