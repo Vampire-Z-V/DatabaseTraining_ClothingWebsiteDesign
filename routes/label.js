@@ -37,10 +37,9 @@ var label = function (router, model) {
                 for (let q of items_attributes_views) {
                     var exist = false;
                     for (let w of items_data.attributes) {
-                        if (w.attr_name == q.attrName) {
+                        if (w.attr_name === q.attrName) {
                             exist = true;
                             w.attr_values.push(q.attrValue);
-                            break;
                         }
                     }
                     if (!exist) {
@@ -48,9 +47,9 @@ var label = function (router, model) {
                             attr_name: q.attrName,
                             attr_values: new Array()
                         }
+                        attribute_obj.attr_values.push(q.attrValue);
                         items_data.attributes.push(attribute_obj);
                     }
-
                 }
                 items_datas.push(items_data);
             }
@@ -107,7 +106,6 @@ var label = function (router, model) {
                 }
                 groups_datas.push(group_obj);
             }
-            console.log(groups_datas[0].types);
             res.render("label", {
                 title: "Label Page",
                 path: path,
