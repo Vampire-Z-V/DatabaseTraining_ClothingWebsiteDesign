@@ -7,6 +7,10 @@ var pid;
 
 var label = function (router, model) {
     router.get('/label', function (req, res) {
+        if (!req.session.user) {
+            req.session.error = "请先登录";
+            res.redirect('/login');
+        }
         var string = url.parse(req.url).query;
         var object = query.parse(string);
         pid = parseInt(object.pid);
