@@ -1,20 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <meta charset="utf-8">
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style type="text/css">
-    	/*下划线*/
-    	a{margin-left: 20px; text-decoration: none}
-    	a:hover{text-decoration: underline;}
-    </style>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p>
-    	<a href="/login">登录</a>
-    	<a href="/register">注册</a>
-    </p>
-  </body>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+</head>
+
+<body>
+<div class="login-register-page">
+    <div class="form-header">
+        <h1>Login</h1>
+    </div>
+
+    <div class="form">
+        <!--Register-->
+        <form class="register-form" method="post" onsubmit="return false">
+            <div class="field-wrap">
+                <label for="r-username">
+                    Username<span class="req">*</span>
+                </label>
+                <input type="text" id="r-username" required autocomplete="off"/>
+            </div>
+
+            <div class="select-wrap">
+                <div class="label"><label for="r-usertype">Usertype:</label></div>
+                <div class="select-style">
+                    <select name="usertype" id="r-usertype">
+                        <option value="系统管理员">System Administrator</option>
+                        <option value="服装设计师">Dress Designer</option>
+                        <option value="销售管理员">Sale Administrator</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field-wrap">
+                <label for="r-password">
+                    Choose your password<span class="req">*</span>
+                </label>
+                <input type="text" onfocus="this.type='password'" id="r-password" required autocomplete="off"/>
+            </div>
+            <div class="field-wrap">
+                <label for="r-confirm">
+                    Confirm your password<span class="req">*</span>
+                </label>
+                <input type="text" onfocus="this.type='password'" id="r-confirm" required autocomplete="off"/>
+            </div>
+            <div id="not-pass-confirm" style="display: none">Please check your password</div>
+            <button type="submit" id="create">CREATE</button>
+            <p class="message">Already registered? <a id="login-href" href="#">Sign In</a></p>
+        </form>
+
+        <!--Login-->
+        <form class="login-form" method="post" onsubmit="return false">
+            <div class="field-wrap">
+                <label>
+                    Username<span class="req">*</span>
+                </label>
+                <input type="text" id="l-username" required autocomplete="off"/>
+            </div>
+            <div class="field-wrap">
+                <label>
+                    Password<span class="req">*</span>
+                </label>
+                <input type="text" onfocus="this.type='password'" id="l-password" required autocomplete="off"/>
+            </div>
+            <button class="button-text" type="submit" id="login">LOGIN</button>
+            <p class="message">Not registered? <a id="register-href" href="#">Create an account</a></p>
+        </form>
+    </div>
+</div>
+<!--JS files-->
+<script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+<script src="/javascripts/index.js" type="text/javascript"></script>
+
+</body>
 </html>

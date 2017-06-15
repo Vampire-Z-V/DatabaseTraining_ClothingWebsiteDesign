@@ -29,8 +29,6 @@ var project = function (router, model) {
                 });
             })
         })
-        // var undo_pictures = ["2", "3"];
-        // var done_pictures = ["1"];
     });
    
 };
