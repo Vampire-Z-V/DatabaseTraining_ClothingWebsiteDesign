@@ -74,7 +74,15 @@ $(function () {
     scroll_top("");
     datas = [];
     state = new State();
-})
+
+    var $panel = $("div.typelist-panel");
+    for (var i = 0; i < items.length; i++) {
+        var $span = $panel.find("span[name=" + items[i].type + "]");
+        $span.removeClass("addAttributes");
+        $span.addClass("unclickable");
+        $span.undelegate();
+    }
+});
 
 $("#add-label").click(function () {
     change_panel(function () {
@@ -86,7 +94,7 @@ $("#add-label").click(function () {
 
 // 最终提交数据给后端操作数据库
 $("#submit").click(function () {
-    // alert(JSON.stringify(datas));
+    alert(JSON.stringify(datas));
     $.ajax({
         url: '/label',
         type: 'post',
@@ -234,8 +242,14 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
         datas.splice(i, 1);
     } else if (!state.b_in_datas && state.item_temp.modify) {
         datas.push(item);
+        var $panel = $("div.typelist-panel");
+        var $span = $panel.find("span[name=" + item.type + "]");
+        $span.removeClass("addAttributes");
+        $span.addClass("unclickable");
+        $span.undelegate();
     }
 
+    state.$label.remove();
     state.WhetherCanSubmit();
 
     $.ajax({
@@ -248,7 +262,6 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
         dataType: 'html',
         success: function (data, status) {
             if (status == 'success') {
-                state.$label.remove();
                 $(".attr-panel").empty();
                 $(".subpanel").animate({
                     opacity: "toggle"
@@ -268,43 +281,8 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
 });
 
 // 选择item种类，获取该种类的所有属性，进入打标签页面
-$("span.addItem").click(function () {
-    // 记录item属于的group,type，把提交设为不可提交
-    item = {
-        "item_name": "",
-        "group": $(this).attr("father"),
-        "group_id": "",
-        "type": this.innerText,
-        "type_id": "",
-        "attributes": [],
-        "option": "insert"
-    };
-
-    state.item_temp = {};
-    state.b_in_datas = false;
-    state.$label=$("");
-
-    var result = find_ids_and_attrs(item.group, item.type, item.item_name);
-    item.group_id = result.group_id;
-    item.type_id = result.type_id;
-
-    var render_data = {
-        "item_name": item.item_name,
-        "group": item.group,
-        "type": item.type,
-        "attributes": result.attrs
-    };
-
-    render_attributes(render_data, function (data, status) {
-        if (status == 'success') {
-            $(".subpanel").animate({
-                opacity: "toggle"
-            }, 100);
-
-            $(".attr-panel").html(data).hide();
-            $(".attr-panel").fadeIn();
-        }
-    });
+$(".typelist-panel").delegate('span.addAttributes','click',function (){
+    intoAddAttributes(this);
 });
 
 // 编辑标签
@@ -323,11 +301,9 @@ $(".panel-show").delegate('span.edit', 'click', function () {
     for (var i = 0; i < items.length; i++) {
         if (items[i].group === str[0] && items[i].type === str[1]) {
             state.item_temp = items[i];
-            alert("in item");
             if (items[i].hasOwnProperty("modify"))
                 break;
 
-            alert("no modify");
             state.b_in_datas = false;
             item = state.CloneItem(items[i]);
             item.option = "update";
@@ -467,6 +443,46 @@ function initial_attributes(attrs) {
         });
     });
     state.now_attrs_cnt = item.attributes.length;
+}
+
+// 进入增加标签属性页面
+function intoAddAttributes(obj) {
+    // 记录item属于的group,type，把提交设为不可提交
+    item = {
+        "item_name": "",
+        "group": $(obj).attr("father"),
+        "group_id": "",
+        "type": obj.innerText,
+        "type_id": "",
+        "attributes": [],
+        "option": "insert"
+    };
+
+    state.item_temp = {};
+    state.b_in_datas = false;
+    state.$label = $("");
+
+    var result = find_ids_and_attrs(item.group, item.type, item.item_name);
+    item.group_id = result.group_id;
+    item.type_id = result.type_id;
+
+    var render_data = {
+        "item_name": item.item_name,
+        "group": item.group,
+        "type": item.type,
+        "attributes": result.attrs
+    };
+
+    render_attributes(render_data, function (data, status) {
+        if (status == 'success') {
+            $(".subpanel").animate({
+                opacity: "toggle"
+            }, 100);
+
+            $(".attr-panel").html(data).hide();
+            $(".attr-panel").fadeIn();
+        }
+    });
 }
 
 // 渲染attributes.ejs模板

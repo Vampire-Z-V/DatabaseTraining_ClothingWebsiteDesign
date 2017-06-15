@@ -88,7 +88,7 @@ img{
 }
 
 .panel-body label,
-span.label{
+span.addAttributes{
     cursor: pointer;
 }
 
@@ -102,4 +102,10 @@ span.label{
     -moz-transition: all .3s ease;
     -o-transition: all .3s ease;
     transition: all .3s ease;
+}
+
+.unclickable,
+.unclickable:hover{
+    background: #26ca28;
+    cursor: default;
 }
