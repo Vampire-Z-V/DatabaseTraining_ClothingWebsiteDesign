@@ -8,10 +8,7 @@
         <div class="panel-collapse collapse" id="panel-element-<%= i %>">
             <div class="panel-body">
                 <% for(var j=0; j<groups[i].types.length; j++) { %>
-                    <!--<input type="checkbox" id="<%= groups[i].types[j].type %>" style="display: none;">-->
-                    <!--<label for="<%= groups[i].types[j].type %>">-->
-                        <span class="label label-default addAttributes" father="<%= groups[i].group %>" name="<%= groups[i].types[j].type %>"><%= groups[i].types[j].type %></span>
-                    <!--</label>-->
+                    <span class="label label-default addAttributes" father="<%= groups[i].group %>" name="<%= groups[i].types[j].type %>"><%= groups[i].types[j].type %></span>
                 <% } %>
             </div>
         </div>

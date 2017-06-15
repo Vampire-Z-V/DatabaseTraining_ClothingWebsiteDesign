@@ -12,7 +12,7 @@ function State() {
     this.total_attrs_cnt = 0;   //记录当前item种类所包含的所有属性个数
     this.now_attrs_cnt = 0;     //记录当前item已经添加了的属性个数
     this.item_temp = {};        //记录初始item副本
-    this.$label = $("");
+    this.$label = $("");        //记录点击编辑的那个标签
 
     this.CloneItem = function (curr_item) {
         var temp = {};
@@ -52,16 +52,21 @@ function State() {
             $("#submit").attr("disabled", true);
     };
 
+    // 判断两个item是否相同
     this.isSameItem = function (old_item, new_item) {
         if (JSON.stringify(old_item) !== JSON.stringify({}) && old_item.item_name === new_item.item_name && old_item.attributes.length === new_item.attributes.length) {
             for (var i = 0; i < new_item.attributes.length; i++) {
-                if (old_item.attributes[i].attr_values.length === new_item.attributes[i].attr_values.length) {
-                    for (var j = 0; j < new_item.attributes[i].attr_values.length; j++) {
-                        if (old_item.attributes[i].attr_values.indexOf(new_item.attributes[i].attr_values[j]) === -1)
-                            return false;
-                    }
-                } else {
+                var k = 0;
+                for (; k < old_item.attributes.length; k++) {
+                    if (old_item.attributes[k].attr_name === new_item.attributes[i].attr_name)
+                        break;
+                }
+                if (k === old_item.attributes.length)
                     return false;
+
+                for (var j = 0; j < new_item.attributes[i].attr_values.length; j++) {
+                    if (old_item.attributes[k].attr_values.indexOf(new_item.attributes[i].attr_values[j]) === -1)
+                        return false;
                 }
             }
             return true;
@@ -94,7 +99,7 @@ $("#add-label").click(function () {
 
 // 最终提交数据给后端操作数据库
 $("#submit").click(function () {
-    alert(JSON.stringify(datas));
+    // alert(JSON.stringify(datas));
     $.ajax({
         url: '/label',
         type: 'post',
@@ -131,12 +136,64 @@ $(".panel-show").delegate('.collapse-panel-body', 'click', function () {
 
 // 删除标签
 $(".panel-show").delegate('span.remove', 'click', function () {
-    var $div_panel = $(this).parents('div.panel');
+    var $td = $(this).parent();
+    var $tr = $td.parent();
+    var title = $tr.find("span.tag").text();
+    var str = title.split(/:/);
 
+    state.b_in_datas = true;
+    var isModify = false;
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].group === str[0] && items[i].type === str[1]) {
+            state.b_in_datas = false;
+            if (items[i].hasOwnProperty("modify"))
+                isModify = true;
+            item = state.CloneItem(items[i]);
+            item.option = "delete";
+            break;
+        }
+    }
+
+    var $div_panel = $(this).parents('div.panel');
     $div_panel.animate({
         height: "0px"
     }, 140, function () {
         $div_panel.remove();
+        if (state.b_in_datas || isModify) {
+            for (var i = 0; i < datas.length; i++) {
+                if (datas[i].group === str[0] && datas[i].type === str[1]) {
+                    datas.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        if (!state.b_in_datas) {
+            var result = find_ids_and_attrs(item.group, item.type, item.item_name);
+            item.group_id = result.group_id;
+            item.type_id = result.type_id;
+
+            var render_data = {
+                "item_name": item.item_name,
+                "group": item.group,
+                "type": item.type,
+                "attributes": result.attrs
+            };
+
+            render_attributes(render_data, function (data, status) {
+                if (status == 'success') {
+                    $(".attr-panel").html(data).hide();
+                    initial_attributes(item.attributes, item.option);
+                    $(".attr-panel").html("");
+                }
+            });
+            initial_attributes(item.attributes, item.option);
+            datas.push(item);
+        }
+        var $panel = $("div.typelist-panel");
+        var $span = $panel.find("span[name=" + item.type + "]");
+        $span.addClass("addAttributes");
+        $span.removeClass("unclickable");
+        state.WhetherCanSubmit();
     });
 });
 
@@ -242,13 +299,12 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
         datas.splice(i, 1);
     } else if (!state.b_in_datas && state.item_temp.modify) {
         datas.push(item);
-        var $panel = $("div.typelist-panel");
-        var $span = $panel.find("span[name=" + item.type + "]");
-        $span.removeClass("addAttributes");
-        $span.addClass("unclickable");
-        $span.undelegate();
     }
-
+    var $panel = $("div.typelist-panel");
+    var $span = $panel.find("span[name=" + item.type + "]");
+    $span.removeClass("addAttributes");
+    $span.addClass("unclickable");
+    $span.undelegate();
     state.$label.remove();
     state.WhetherCanSubmit();
 
@@ -281,7 +337,7 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
 });
 
 // 选择item种类，获取该种类的所有属性，进入打标签页面
-$(".typelist-panel").delegate('span.addAttributes','click',function (){
+$(".typelist-panel").delegate('span.addAttributes', 'click', function () {
     intoAddAttributes(this);
 });
 
@@ -341,10 +397,7 @@ $(".panel-show").delegate('span.edit', 'click', function () {
                 opacity: "toggle"
             }, 200, function () {
                 $(".attr-panel").html(data);
-                initial_attributes(item.attributes);
-                // state.CloneItem(item);
-                // state.item_temp = JSON.clone(item);
-                // state.item_temp.attributes = item.attributes.splice(0);
+                initial_attributes(item.attributes, item.option);
                 $("#return-groups").attr("id", "return-label");
             });
             $(".attr-panel").fadeIn(600);
@@ -426,8 +479,8 @@ function find_ids_and_attrs(group, type, item_name) {
     return result;
 }
 
-// 编辑标签时把已存在的标签先自动打好
-function initial_attributes(attrs) {
+// 获取每个标签的属性名和属性对应的id，编辑标签时把已存在的标签先自动打好
+function initial_attributes(attrs, option) {
     var $attr_panel = $('.attr-panel');
 
     attrs.forEach(function (attribute) {
@@ -436,8 +489,10 @@ function initial_attributes(attrs) {
         attribute.attrv_ids = [];
         attribute.attr_values.forEach(function (attr_value) {
             var $span = $attribute.find('span[attr_value=' + attr_value + ']');
-            var $input = $span.parent().prev();
-            $input.attr("checked", true);
+            if (option === "update") {
+                var $input = $span.parent().prev();
+                $input.attr("checked", true);
+            }
 
             attribute.attrv_ids.push($span.attr('attrv-id'));
         });
@@ -461,6 +516,27 @@ function intoAddAttributes(obj) {
     state.item_temp = {};
     state.b_in_datas = false;
     state.$label = $("");
+
+    // 判断该新增标签是否为先删除原有的标签（数据库中的数据）再重新打
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].group === item.group && items[i].type === item.type) {
+            state.item_temp = items[i];
+            item.option = "update";
+            state.b_in_datas = true;
+            break;
+        }
+    }
+
+    // 如果是先删再增，则先把原先记录在datas里的该标签（操作为delete）删除
+    if (state.b_in_datas) {
+        for (var i = 0; i < datas.length; i++) {
+            if (datas[i].group === item.group && datas[i].type === item.type) {
+                datas.splice(i, 1);
+                state.b_in_datas = false;
+                break;
+            }
+        }
+    }
 
     var result = find_ids_and_attrs(item.group, item.type, item.item_name);
     item.group_id = result.group_id;
