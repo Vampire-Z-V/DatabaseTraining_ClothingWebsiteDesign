@@ -1,0 +1,95 @@
+<!DOCTYPE html >
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>服装商城管理系统</title>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+	<!--注意加载顺序-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<script src="/javascripts/bootstrap.min.js"></script>
+	<style type="text/css">
+    	a{margin-left: 20px; text-decoration: none;}
+    	a:hover{text-decoration: underline;}
+    </style>
+</head>
+
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+	    <div class="container-fluid">
+		    <div class="navbar-header navbar-brand" >
+		        服装商城管理系统
+		    </div>
+		    <div>
+		        <ul class="nav navbar-nav navbar-right">
+		        	<li><a href="/home">未完成任务</a></li>
+
+		        	<li><a href="/complete">已完成任务</a></li>
+
+		        	<li><a href="/upload">创建任务</a></li>
+		            <li><a href="#">欢迎,<%= user.name %></a></li>
+		            <li><a href="/logout">注销</a></li>
+		        </ul>
+		    </div>
+	    </div>
+	</nav>
+
+
+	<div class="container">
+		<div style="text-align:right">
+			<input type="text" style="text-align:center;" name="search" id="search" placeholder="请输入关键字进行搜索">
+			<input type="button" id="searchBtn" value="搜索" />
+		</div>
+		<legend></legend>
+		
+		<div class="panel panel-default">
+		    <div class="panel-heading">搜索结果</div>
+		    <ul class="list-group" id="list">
+		        <% if (projects.length) { %>  
+				  <ul class="list-group">  
+				    <% projects.forEach(function(project){ %>  
+				    	<li class="list-group-item" onclick="location.href='project?id=<%= project.pro_id %>'" 
+							name='<%= project.pro_name %>'>
+				    		
+				    		<p>任务名: <%= project.pro_name %></p>
+				      		
+				      		<p>状态：未完成</p>
+				    	</li>  
+				    <% }) %>  
+				  </ul>  
+				<% } %>
+		    </ul>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			//实现搜索功能
+			$('#searchBtn').click(function() {
+				//获取搜索框的内容
+				var text = $('#search').val();
+
+				//找到所有列表，判断其name属性的值是否包含了搜索框输入的内容
+				var temp = $("#list").find("li").each(function(next, elem) {
+					//获取每个列表的name属性的值
+					var str = $(elem).attr('name');
+					console.log(typeof str);
+					//如果不匹配就将其删除
+					if(! str.match(text))
+					{
+						$(elem).remove();
+					}
+				});
+			});
+
+
+			$('#search').change(function() {
+				var text = $("#search").val();
+				if(! text){
+					location.reload(false);
+				}
+			})
+
+		});
+	</script>
+</body>
+</html>
