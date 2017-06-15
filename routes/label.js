@@ -9,7 +9,7 @@ var label = function (router, model) {
     router.get('/label', function (req, res) {
         if (!req.session.user) {
             req.session.error = "请先登录";
-            res.redirect('/login');
+            res.redirect('/index');
         }
         var string = url.parse(req.url).query;
         var object = query.parse(string);

@@ -27,9 +27,9 @@ var Upload = function(router, model) {
 	router.route('/upload') 
 		.get(function(req, res) {
 			if (!req.session.user) {
-                req.session.error = "请先登录";
-                res.redirect('/login');
-            }
+	            req.session.error = "请先登录";
+	            res.redirect('/index');
+	        }
 			res.render('upload', {
 				title: '创建任务'
 			});
