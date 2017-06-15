@@ -8,7 +8,7 @@
         <div class="panel-collapse collapse" id="panel-element-<%= i %>">
             <div class="panel-body">
                 <% for(var j=0; j<groups[i].types.length; j++) { %>
-                    <a href="#"><span class="label label-default" father="<%= groups[i].group %>"><%= groups[i].types[j].type %></span></a>
+                    <span class="label label-default label-color-change addItem" father="<%= groups[i].group %>"><%= groups[i].types[j].type %></span>
                 <% } %>
             </div>
         </div>

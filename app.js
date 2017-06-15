@@ -17,7 +17,7 @@ app.use(session({
 	key: config.database,
 	secret: config.cookieSecret,
 	cookie:{
-		maxAge: 1000*60*30
+		maxAge: 1000*60*30*2*24
 	},
 	//store: new MySQLStore(config),
     resave: true,
