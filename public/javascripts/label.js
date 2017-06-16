@@ -16,6 +16,8 @@ function State() {
 
     this.CloneItem = function (curr_item) {
         var temp = {};
+        if (curr_item.hasOwnProperty("ID"))
+            temp.ID = curr_item.ID;
         temp.item_name = curr_item.item_name;
         temp.group = curr_item.group;
         temp.type = curr_item.type;
@@ -99,6 +101,7 @@ $("#add-label").click(function () {
 
 // 最终提交数据给后端操作数据库
 $("#submit").click(function () {
+    // console.log(JSON.stringify(items));
     // alert(JSON.stringify(datas));
     $.ajax({
         url: '/label',
@@ -141,6 +144,7 @@ $(".panel-show").delegate('span.remove', 'click', function () {
     var title = $tr.find("span.tag").text();
     var str = title.split(/:/);
 
+    item = {};
     state.b_in_datas = true;
     var isModify = false;
     for (var i = 0; i < items.length; i++) {
@@ -148,7 +152,10 @@ $(".panel-show").delegate('span.remove', 'click', function () {
             state.b_in_datas = false;
             if (items[i].hasOwnProperty("modify"))
                 isModify = true;
-            item = state.CloneItem(items[i]);
+            alert(JSON.stringify(items[i]));
+            item.group = items[i].group;
+            item.type = items[i].type;
+            item.ID = items[i].ID;
             item.option = "delete";
             break;
         }
@@ -168,25 +175,25 @@ $(".panel-show").delegate('span.remove', 'click', function () {
             }
         }
         if (!state.b_in_datas) {
-            var result = find_ids_and_attrs(item.group, item.type, item.item_name);
-            item.group_id = result.group_id;
-            item.type_id = result.type_id;
-
-            var render_data = {
-                "item_name": item.item_name,
-                "group": item.group,
-                "type": item.type,
-                "attributes": result.attrs
-            };
-
-            render_attributes(render_data, function (data, status) {
-                if (status == 'success') {
-                    $(".attr-panel").html(data).hide();
-                    initial_attributes(item.attributes, item.option);
-                    $(".attr-panel").html("");
-                }
-            });
-            initial_attributes(item.attributes, item.option);
+            //     var result = find_ids_and_attrs(item.group, item.type, item.item_name);
+            //     item.group_id = result.group_id;
+            //     item.type_id = result.type_id;
+            //
+            //     var render_data = {
+            //         "item_name": item.item_name,
+            //         "group": item.group,
+            //         "type": item.type,
+            //         "attributes": result.attrs
+            //     };
+            //
+            //     render_attributes(render_data, function (data, status) {
+            //         if (status == 'success') {
+            //             $(".attr-panel").html(data).hide();
+            //             initial_attributes(item.attributes, item.option);
+            //             $(".attr-panel").html("");
+            //         }
+            //     });
+            //     initial_attributes(item.attributes, item.option);
             datas.push(item);
         }
         var $panel = $("div.typelist-panel");
@@ -521,6 +528,7 @@ function intoAddAttributes(obj) {
     for (var i = 0; i < items.length; i++) {
         if (items[i].group === item.group && items[i].type === item.type) {
             state.item_temp = items[i];
+            item.ID = items[i].ID;
             item.option = "update";
             state.b_in_datas = true;
             break;
