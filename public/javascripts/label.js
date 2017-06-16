@@ -110,7 +110,7 @@ $("#submit").click(function () {
         contentType: 'application/json',
         success: function (data, status) {
             if (status == 'success') {
-
+                window.location.reload();
             }
         },
         error: function (data, status) {
@@ -152,7 +152,6 @@ $(".panel-show").delegate('span.remove', 'click', function () {
             state.b_in_datas = false;
             if (items[i].hasOwnProperty("modify"))
                 isModify = true;
-            alert(JSON.stringify(items[i]));
             item.group = items[i].group;
             item.type = items[i].type;
             item.ID = items[i].ID;
