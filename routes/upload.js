@@ -10,8 +10,6 @@ var Upload = function(router, model) {
 	var Pictures = database.pictures;
 	var Project = database.project;
 
-	var success;
-
 	var storage = multer.diskStorage({
 	  destination: function (req, file, cb) {
 	  	//设置的文件夹不存在时，会自动创建
@@ -29,9 +27,9 @@ var Upload = function(router, model) {
 	router.route('/upload') 
 		.get(function(req, res) {
 			if (!req.session.user) {
-                req.session.error = "请先登录";
-                res.redirect('/login');
-            }
+	            req.session.error = "请先登录";
+	            res.redirect('/index');
+	        }
 			res.render('upload', {
 				title: '创建任务'
 			});
@@ -70,8 +68,9 @@ var Upload = function(router, model) {
 										pic_status: 'done', 
 										pro_id: data.pro_id})
 										.then(data=>{
-											console.log('success');
-											success = true;
+											// success = true;
+											console.log('1');
+											console.log(success);
 										})
 										//创建失败
 										.catch(err=>{
@@ -88,8 +87,9 @@ var Upload = function(router, model) {
 										pic_status: 'undo', 
 										pro_id: data.pro_id})
 										.then(data=>{
-											console.log('success');
-											success = true;
+											// success = true;
+											console.log('2');
+											console.log(success);
 										})
 										//创建失败
 										.catch(err=>{
@@ -97,16 +97,30 @@ var Upload = function(router, model) {
 										});
 								});
 							}
+							//不会被执行,因为上面的代码是异步回调
+							// if(success)
+							// {
+							// 	console.log('upload');
+							// 	res.redirect('/home');
+							// }
+						})
+						//因为使用了promise，所以这里也要用promise来调用
+						.then(data=>{
+							// if(success)
+							// {
+							// 	console.log('upload');
+							// 	res.redirect('/home');
+							// }
+							res.redirect('/home');
 						})
 						.catch(err=>{
 							console.log(err);
-						});
-					if(success)
-						res.redirect('/home');
+						});					
 				}
 				else{
-					req.session.error = "请选择图片";
 					res.redirect('/upload');
+					req.session.error = "请选择图片";
+					
 				}
 
 		});

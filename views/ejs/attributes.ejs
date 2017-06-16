@@ -1,9 +1,9 @@
 <h3><%= group %>: <%= type %></h3>
-<input id="item-name" type="text" placeholder="item name" maxlength="4">
+<input id="item-name" type="text" placeholder="item name" maxlength="4" value="<%= item_name %>">
 <hr/>
 
 <% for(var i=0; i<attributes.length; i++) { %>
-    <div class="panel panel-info">
+    <div class="panel panel-info attribute" name="<%= attributes[i].attr_name %>" id="<%= attributes[i].attrn_id %>">
         <div class="panel-heading">
             <a class="panel-title collapsed" href="#subpanel-element-<%= i %>" data-toggle="collapse" data-parent="#panel-parent-attr">
                 <%= attributes[i].attr_name %>
@@ -16,12 +16,12 @@
             <div class="panel-body">
                 <% for(var j=0; j<attributes[i].attr_values.length; j++) { %>
                     <% if(attributes[i].multi) { %>
-                        <input type="checkbox" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" attrn-id="<%= attributes[i].attrn_id %>" style="display: none;" />
+                        <input type="checkbox" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
                     <% } else { %>
-                        <input type="radio" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" attrn-id="<%= attributes[i].attrn_id %>" style="display: none;" />
+                        <input type="radio" id="<%= i %>_<%= j %>" name="<%= attributes[i].attr_name %>" style="display: none;" />
                     <% } %> 
                     <label for="<%= i %>_<%= j %>">
-                        <span class="label label-default" attrv-id="<%= attributes[i].attrv_ids[j] %>"><%= attributes[i].attr_values[j] %></span>
+                        <span class="label label-default label-color-change" attr_value="<%= attributes[i].attr_values[j] %>" attrv-id="<%= attributes[i].attrv_ids[j] %>"><%= attributes[i].attr_values[j] %></span>
                     </label>
                 <% } %>
             </div>
