@@ -1,7 +1,7 @@
 var login = function (router, model) {
 	router.route("/login")
 		.get(function (req, res) {
-			res.render("login", { title: "User login" });
+			res.redirect('/index');
 		})
 		.post(function (req, res) {
 			var user = model.user;

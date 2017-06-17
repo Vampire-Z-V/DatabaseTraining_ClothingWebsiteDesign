@@ -22,7 +22,7 @@ model.user = sequelize.define('user', {
 		primaryKey: true,
 		autoIncrement: true
 	},
-	user_type:Sequelize.ENUM('系统管理员','服装设计师','销售管理员'),
+	user_type: Sequelize.ENUM('系统管理员', '服装设计师', '销售管理员'),
 	name: Sequelize.STRING(20),
 	password: Sequelize.STRING(20),
 	//因为在将sequelize函数转换为mysql语句的时候，会自动添加createdAt和updatedAt这两个属性
@@ -66,7 +66,7 @@ model.items = sequelize.define('items', {
 		primaryKey: true,
 		autoIncrement: true
 	},
-	item_name:Sequelize.STRING,
+	item_name: Sequelize.STRING,
 	cata_id: Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	createTime: Sequelize.DATE
@@ -103,6 +103,17 @@ model.attrname = sequelize.define('attrName', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
+model.sales = sequelize.define('sales', {
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+		autoIncrement: true
+	}
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
 model.attrvalue = sequelize.define('attrValue', {
 	attrv_id: {
 		type: Sequelize.INTEGER,
@@ -131,7 +142,7 @@ model.catagory = sequelize.define('catagory', {
 	});
 
 model.items_catagory_view = sequelize.define('items_catagory_view', {
-	item_name:Sequelize.INTEGER,
+	item_name: Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
@@ -146,7 +157,7 @@ model.items_catagory_view = sequelize.define('items_catagory_view', {
 	});
 
 model.items_sales_view = sequelize.define('items_sales_view', {
-	item_name:Sequelize.INTEGER,
+	item_name: Sequelize.INTEGER,
 	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
@@ -154,11 +165,11 @@ model.items_sales_view = sequelize.define('items_sales_view', {
 	},
 	type: Sequelize.STRING,
 	group_name: Sequelize.STRING,
-	annualsales:Sequelize.INTEGER,
-	mounthlysales:Sequelize.INTEGER,
-	region_id:Sequelize.INTEGER,
-	channel:Sequelize.STRING,
-	agegroup:Sequelize.STRING
+	annualsales: Sequelize.INTEGER,
+	mounthlysales: Sequelize.INTEGER,
+	region_id: Sequelize.INTEGER,
+	channel: Sequelize.STRING,
+	agegroup: Sequelize.STRING
 },
 	{
 		'freezeTableName': true,
@@ -184,12 +195,12 @@ model.attributes_view = sequelize.define('attributes_view', {
 		primaryKey: true,
 	},
 	cata_name: Sequelize.STRING,
-	attrn_id:Sequelize.INTEGER,
+	attrn_id: Sequelize.INTEGER,
 	attrName: Sequelize.STRING,
-	attrv_id:Sequelize.INTEGER,
+	attrv_id: Sequelize.INTEGER,
 	attrValue: Sequelize.STRING,
 	parent_id: Sequelize.INTEGER,
-	multi:Sequelize.BOOLEAN
+	multi: Sequelize.BOOLEAN
 },
 	{
 		'freezeTableName': true,

@@ -1,24 +1,29 @@
 <% items.forEach(function(item) { %>
-<div class="panel panel-success">
+<% if(item.hasOwnProperty("option")) { %>
+    <% if(item["option"] === "insert") { %>
+        <div class="panel panel-info">
+    <% } else { %>
+        <div class="panel panel-warning">
+    <% } %>
+<% } else { %>
+    <div class="panel panel-success">
+<% } %>
     <div class="panel-heading">
         <table width="100%">
             <tr>
                 <td class="td-title" width="90%">
                     <a class="collapse-panel-body" href="#">
                         <div style="width: inherit;">
-                            <div class="icon-arrow"></div>
-                            <span class="tag"> <%= item.group %>:<%= item.type %> </span>
+                            <div class="arrow"></div>
+                            <span class="tag"><%= item.group %>:<%= item.type %></span>
                         </div>
                     </a>
                 </td>
                 <td class="td-edit" style="text-align: center">
-                    <span class="glyphicon glyphicon-edit icon-cross" style="margin-top: 2px"></span>
+                    <span class="glyphicon glyphicon-edit icon-style edit"></span>
                 </td>
-
                 <td class="td-remove" style="text-align: center">
-                    <a class="remove" href="#">
-                        <span class="glyphicon glyphicon-trash icon-cross" style="margin-top: 2px"></span>
-                    </a>
+                    <span class="glyphicon glyphicon-trash icon-style remove"></span>
                 </td>
             </tr>
         </table>

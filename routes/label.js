@@ -41,7 +41,7 @@ var label = function (router, model) {
                 for (let q of items_attributes_views) {
                     var exist = false;
                     for (let w of items_data.attributes) {
-                        if (w.attr_name == q.attrName) {
+                        if (w.attr_name === q.attrName) {
                             exist = true;
                             w.attr_values.push(q.attrValue);
                             break;
@@ -52,9 +52,9 @@ var label = function (router, model) {
                             attr_name: q.attrName,
                             attr_values: new Array()
                         }
+                        attribute_obj.attr_values.push(q.attrValue);
                         items_data.attributes.push(attribute_obj);
                     }
-
                 }
                 items_datas.push(items_data);
             }
@@ -111,7 +111,6 @@ var label = function (router, model) {
                 }
                 groups_datas.push(group_obj);
             }
-            console.log(groups_datas[0].types);
             res.render("label", {
                 title: "Label Page",
                 path: path,
@@ -127,35 +126,99 @@ var label = function (router, model) {
         var year = new Date();
         year = (year.getFullYear()).toString().substr(-2);
         for (let p of req.body) {
-            //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
-            //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
-            var handled_ID = year + pid + p.type_id;
-            item.create({
-                ID: handled_ID,
-                item_name: p.item_name,
-                cata_id: p.type_id,
-                pic_id: pid,
-                createTime: Date.now()
-            }).then(function (z) {
-                console.log('created.' + JSON.stringify(z));
-                for (let q of p.attributes) {
-                    var attrn_id = q.attrn_id;
-                    for (let w of q.attrv_ids) {
-                        attrtable.create({
-                            ID: handled_ID,
-                            attrn_id: attrn_id,
-                            attrv_id: w
-                        }).then(function (p) {
-                            console.log('created.' + JSON.stringify(p));
+            if (p.option == 'update') {
+                attrtable.destroy({
+                    where: {
+                        ID: p.ID
+                    }
+                }).then(function () {
+                    //item update
+                    item.update({
+                        item_name: p.item_name,
+                        cata_id: p.type_id,
+                        createTime: Date.now()
+                    }, {
+                            where: {
+                                ID: p.ID
+                            }
+                        });
+                    //attrTable update
+                    for (let q of p.attributes) {
+                        var attrn_id = q.attrn_id;
+                        for (let w of q.attrv_ids) {
+                            attrtable.create({
+                                ID: p.ID,
+                                attrn_id: attrn_id,
+                                attrv_id: w
+                            }).then(function (p) {
+                                console.log('updated.' + JSON.stringify(p));
+                            }).catch(function (err) {
+                                console.log('failed: ' + err);
+                            });
+                        }
+                    }
+                });
+            }
+            else if (p.option == 'delete') {
+                model.sales.destroy({
+                    where: {
+                        ID: p.ID
+                    }
+                }).then(function (g) {
+                    attrtable.destroy({
+                        where: {
+                            ID: p.ID
+                        }
+                    }).then(function (z) {
+                        console.log('deleted :' + JSON.stringify(z));
+                        item.destroy({
+                            where: {
+                                ID: p.ID
+                            }
+                        }).then(function (e) {
+                            console.log('deleted :' + JSON.stringify(e));
                         }).catch(function (err) {
                             console.log('failed: ' + err);
                         });
+                    }).catch(function (err) {
+                        console.log('failed: ' + err);
+                    });
+                }).catch(function (err) {
+                    console.log('failed: ' + err);
+                });
+            } else {
+                //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
+                //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
+                var handled_ID = year + pid + p.type_id;
+                item.create({
+                    ID: handled_ID,
+                    item_name: p.item_name,
+                    cata_id: p.type_id,
+                    pic_id: pid,
+                    createTime: Date.now()
+                }).then(function (z) {
+                    console.log('created.' + JSON.stringify(z));
+                    for (let q of p.attributes) {
+                        var attrn_id = q.attrn_id;
+                        for (let w of q.attrv_ids) {
+                            attrtable.create({
+                                ID: z.ID,
+                                attrn_id: attrn_id,
+                                attrv_id: w
+                            }).then(function (p) {
+                                console.log('created.' + JSON.stringify(p));
+                            }).catch(function (err) {
+                                console.log('failed: ' + err);
+                            });
+                        }
                     }
-                }
-            }).catch(function (err) {
-                console.log('failed: ' + err);
-            });
+                }).catch(function (err) {
+                    console.log('failed: ' + err);
+                });
+            }
         }
+        //res.redirect('/home'); //对POST好像无效
+        res.send("200");
     });
 
     router.route("/newlabel")

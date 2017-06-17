@@ -20,9 +20,7 @@
 		    </div>
 		    <div>
 		        <ul class="nav navbar-nav navbar-right">
-		        	<li><a href="/home">未完成任务</a></li>
-
-		            <li><a href="#">欢迎,<%= user.name %></a></li>
+		            <li><a href="#">欢迎,服装设计师 ：<%= user.name %></a></li>
 		            <li><a href="/logout">注销</a></li>
 		        </ul>
 		    </div>
@@ -43,7 +41,7 @@
 		        <% if (items_sales_data.length) { %>  
 				  <ul class="list-group">  
 				    <% items_sales_data.forEach(function(project){ %>  
-				    	<li class="list-group-item">
+				    	<li class="list-group-item" name='<%= project.item_name %>' >
 				    		<p>款式名称: <%= project.item_name %></p>
 				      		<p>款式编号: <%= project.ID %></p>
 							<p>款式种类: <%= project.type %></p>

@@ -1,7 +1,7 @@
 var register = function(router, model) {
     router.route('/register')
         .get(function(req, res) {
-            res.render('register', {title: "User register"});
+            res.redirect('/index');
         })
         .post(function(req, res) {
             var user = model.user;
