@@ -14,6 +14,8 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 });
 
 var model = {};
+//for raw queries
+model.sequelize = sequelize;
 
 //这里第一个参数为'user'，对应的数据库表为users
 model.user = sequelize.define('user', {

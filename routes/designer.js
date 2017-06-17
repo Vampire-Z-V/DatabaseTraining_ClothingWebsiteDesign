@@ -5,6 +5,15 @@ var designer = function (router, model) {
 				req.session.error = "请先登录";
 				res.redirect('/index');
 			}
+			sequelize.query("SELECT * FROM `sales`", { type: sequelize.QueryTypes.SELECT })
+				.then(sales => {
+					for (let p of sales) {
+						sequelize.query("SELECT * FROM `annualsales` WHERE ", { type: sequelize.QueryTypes.SELECT })
+							.then(annualsales => {
+
+							});
+					}
+				});
 			(async () => {
 				var items_sales_data = new Array();
 				var groups_datas = new Array();
@@ -20,11 +29,11 @@ var designer = function (router, model) {
 						ID: p.ID,
 						type: p.type,
 						group: p.group_name,
-						annualsales:p.annualsales,
-						mounthlysales:p.mounthlysales,
-						region_id:p.region_id,
-						channel:p.channel,
-						agegroup:p.agegroup,
+						annualsales: p.annualsales,
+						mounthlysales: p.mounthlysales,
+						region_id: p.region_id,
+						channel: p.channel,
+						agegroup: p.agegroup,
 						attributes: new Array()
 					}
 					for (let q of items_attributes_views) {
