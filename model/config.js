@@ -16,8 +16,8 @@
 // }
 var config = {
     host:'139.199.83.61',
-    database:'DBtrain',
-    username:'root',
+    database:'DBtrain2',
+    username:'dbAdmin',
     password: 'software2017', // 口令
     cookieSecret:"secret",
     port: 3306 // 端口号，MySQL默认3306
