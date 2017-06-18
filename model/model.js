@@ -14,6 +14,8 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 });
 
 var model = {};
+//for raw queries
+model.sequelize = sequelize;
 
 //这里第一个参数为'user'，对应的数据库表为users
 model.user = sequelize.define('user', {
@@ -68,7 +70,6 @@ model.items = sequelize.define('items', {
 	},
 	item_name: Sequelize.STRING,
 	cata_id: Sequelize.INTEGER,
-	pic_id: Sequelize.INTEGER,
 	createTime: Sequelize.DATE
 },
 	{
@@ -143,7 +144,6 @@ model.catagory = sequelize.define('catagory', {
 
 model.items_catagory_view = sequelize.define('items_catagory_view', {
 	item_name: Sequelize.INTEGER,
-	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
 		primaryKey: true,
@@ -158,15 +158,12 @@ model.items_catagory_view = sequelize.define('items_catagory_view', {
 
 model.items_sales_view = sequelize.define('items_sales_view', {
 	item_name: Sequelize.INTEGER,
-	pic_id: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
 		primaryKey: true,
 	},
 	type: Sequelize.STRING,
 	group_name: Sequelize.STRING,
-	annualsales: Sequelize.INTEGER,
-	mounthlysales: Sequelize.INTEGER,
 	region_id: Sequelize.INTEGER,
 	channel: Sequelize.STRING,
 	agegroup: Sequelize.STRING

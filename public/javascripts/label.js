@@ -1,5 +1,6 @@
 var datas;  //最终提交给后端的数据，包含多个item
 var item;   //增加或修改一个标签时，记录item信息
+var same_item; //选择同款时，保存同款信息
 var state;  //记录当前状态
 
 function State() {
@@ -102,23 +103,23 @@ $("#add-label").click(function () {
 // 最终提交数据给后端操作数据库
 $("#submit").click(function () {
     // console.log(JSON.stringify(items));
-    // alert(JSON.stringify(datas));
-    $.ajax({
-        url: '/label',
-        type: 'post',
-        data: JSON.stringify(datas),
-        contentType: 'application/json',
-        success: function (data, status) {
-            if (status == 'success') {
-                window.location.reload();
-            }
-        },
-        error: function (data, status) {
-            if (status == 'error') {
-                console.log(status);
-            }
-        }
-    });
+    alert(JSON.stringify(datas));
+    // $.ajax({
+    //     url: '/label',
+    //     type: 'post',
+    //     data: JSON.stringify(datas),
+    //     contentType: 'application/json',
+    //     success: function (data, status) {
+    //         if (status == 'success') {
+    //             window.location.href=document.referrer;
+    //         }
+    //     },
+    //     error: function (data, status) {
+    //         if (status == 'error') {
+    //             console.log(status);
+    //         }
+    //     }
+    // });
 });
 
 // 折叠标签
@@ -167,34 +168,17 @@ $(".panel-show").delegate('span.remove', 'click', function () {
         $div_panel.remove();
         if (state.b_in_datas || isModify) {
             for (var i = 0; i < datas.length; i++) {
-                if (datas[i].group === str[0] && datas[i].type === str[1]) {
+                if (datas[i].type === str[1]) {
+                    item.type = str[1];
                     datas.splice(i, 1);
                     break;
                 }
             }
         }
         if (!state.b_in_datas) {
-            //     var result = find_ids_and_attrs(item.group, item.type, item.item_name);
-            //     item.group_id = result.group_id;
-            //     item.type_id = result.type_id;
-            //
-            //     var render_data = {
-            //         "item_name": item.item_name,
-            //         "group": item.group,
-            //         "type": item.type,
-            //         "attributes": result.attrs
-            //     };
-            //
-            //     render_attributes(render_data, function (data, status) {
-            //         if (status == 'success') {
-            //             $(".attr-panel").html(data).hide();
-            //             initial_attributes(item.attributes, item.option);
-            //             $(".attr-panel").html("");
-            //         }
-            //     });
-            //     initial_attributes(item.attributes, item.option);
             datas.push(item);
         }
+
         var $panel = $("div.typelist-panel");
         var $span = $panel.find("span[name=" + item.type + "]");
         $span.addClass("addAttributes");
@@ -299,7 +283,7 @@ $(".attr-panel").delegate('#submit-item', 'click', function () {
     if (state.b_in_datas && !state.item_temp.hasOwnProperty("modify")) {
         var i = 0;
         for (; i < datas.length; i++) {
-            if (datas[i].group === item.group && datas[i].type === item.type)
+            if (datas[i].type === item.type)
                 break;
         }
         datas.splice(i, 1);
@@ -372,10 +356,10 @@ $(".panel-show").delegate('span.edit', 'click', function () {
             break;
         }
     }
-
+    
     if (state.b_in_datas) {
         for (var i = 0; i < datas.length; i++) {
-            if (datas[i].group === str[0] && datas[i].type === str[1]) {
+            if (datas[i].type === str[1]) {
                 item = datas[i];
                 break;
             }
@@ -403,7 +387,7 @@ $(".panel-show").delegate('span.edit', 'click', function () {
                 opacity: "toggle"
             }, 200, function () {
                 $(".attr-panel").html(data);
-                initial_attributes(item.attributes, item.option);
+                initial_attributes(item.attributes, "update");
                 $("#return-groups").attr("id", "return-label");
             });
             $(".attr-panel").fadeIn(600);
@@ -427,6 +411,107 @@ $(".attr-panel").delegate('#return-label', 'click', function () {
         opacity: "toggle"
     }, 400, function () {
         $(".groups-panel").show();
+    });
+});
+
+// 选择同款
+$(".attr-panel").delegate('#same-type', 'click', function () {
+    var str = $(".attr-panel").find("h3").text();
+    var type = str.split(/:\s+/)[1];
+    var pictures = [];
+    same_item = {
+        "type": type,
+        "ID": ""
+    }
+
+    for (var i = 0; i < done_pictures.length; i++) {
+        for (var j = 0; j < done_pictures[i].items.length; j++) {
+            if (done_pictures[i].items[j].type === type) {
+                pictures.push({
+                    "path": done_pictures[i].path,
+                    "itemID": done_pictures[i].items[j].ID
+                });
+                break;
+            }
+        }
+    }
+
+    $.ajax({
+        url: '/same_item_photos',
+        type: 'post',
+        data: JSON.stringify({
+            "pictures": pictures
+        }),
+        contentType: 'application/json',
+        dataType: 'html',
+        success: function (data, status) {
+            $("#modal-container").css("width", "1000px");
+            $("#modal-container").find(".modal-body").html(data);
+            var $submit = $("#modal-container").find(".submit");
+            $submit.addClass("submit-same-item");
+            $submit.attr("disabled", true);
+        },
+        error: function (data, status) {
+            if (status == 'error') {
+                console.log(status);
+            }
+        }
+    });
+});
+
+$("#modal-container").delegate('#choose-same-item input', 'click', function () {
+    $("#modal-container").find(".submit").attr("disabled", false);
+    same_item.ID = $(this).attr("id");
+});
+
+$("#modal-container").delegate('.submit-same-item', 'click', function () {
+    for (var i = 0; i < datas.length; i++) {
+        if (datas[i].type === same_item.type) {
+            datas.splice(i, 1);
+            break;
+        }
+    }
+    var $span = $("#success-label-panel-border").find("span[name="+same_item.type+"]");
+    var $div_panel = $span.parents('div.panel');
+    $div_panel.remove();
+
+    datas.push({
+        "option": "sameitem",
+        "type": same_item.type,
+        "ID": same_item.ID
+    });
+
+    state.WhetherCanSubmit();
+    var $panel = $("div.typelist-panel");
+    var $span = $panel.find("span[name=" + item.type + "]");
+    $span.removeClass("addAttributes");
+    $span.addClass("unclickable");
+    $span.undelegate();
+
+    $.ajax({
+        url: '/same_item',
+        type: 'post',
+        data: JSON.stringify(same_item),
+        contentType: 'application/json',
+        dataType: 'html',
+        success: function (data, status) {
+            if (status == 'success') {
+                $("#modal-container").find(".modal-body").empty();
+                $(".attr-panel").empty();
+                $(".subpanel").animate({
+                    opacity: "toggle"
+                });
+                change_panel(function () {
+                    scroll_top("slow")
+                });
+                add_label(data);
+            }
+        },
+        error: function (data, status) {
+            if (status == 'error') {
+                console.log(status);
+            }
+        }
     });
 });
 
@@ -537,7 +622,7 @@ function intoAddAttributes(obj) {
     // 如果是先删再增，则先把原先记录在datas里的该标签（操作为delete）删除
     if (state.b_in_datas) {
         for (var i = 0; i < datas.length; i++) {
-            if (datas[i].group === item.group && datas[i].type === item.type) {
+            if (datas[i].type === item.type) {
                 datas.splice(i, 1);
                 state.b_in_datas = false;
                 break;
