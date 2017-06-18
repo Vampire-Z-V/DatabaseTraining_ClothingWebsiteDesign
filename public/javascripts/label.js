@@ -103,23 +103,23 @@ $("#add-label").click(function () {
 // 最终提交数据给后端操作数据库
 $("#submit").click(function () {
     // console.log(JSON.stringify(items));
-    alert(JSON.stringify(datas));
-    // $.ajax({
-    //     url: '/label',
-    //     type: 'post',
-    //     data: JSON.stringify(datas),
-    //     contentType: 'application/json',
-    //     success: function (data, status) {
-    //         if (status == 'success') {
-    //             window.location.href=document.referrer;
-    //         }
-    //     },
-    //     error: function (data, status) {
-    //         if (status == 'error') {
-    //             console.log(status);
-    //         }
-    //     }
-    // });
+    // alert(JSON.stringify(datas));
+    $.ajax({
+        url: '/label',
+        type: 'post',
+        data: JSON.stringify(datas),
+        contentType: 'application/json',
+        success: function (data, status) {
+            if (status == 'success') {
+                window.location.href=document.referrer;
+            }
+        },
+        error: function (data, status) {
+            if (status == 'error') {
+                console.log(status);
+            }
+        }
+    });
 });
 
 // 折叠标签
