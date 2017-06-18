@@ -41,12 +41,11 @@
 		        <% if (items_sales_data.length) { %>  
 				  <ul class="list-group">  
 				    <% items_sales_data.forEach(function(project){ %>  
-				    	<li class="list-group-item" name='<%= project.item_name %>' >
+				    	<li class="list-group-item" onclick="location.href='/designer/item_detail?id=<%= project.ID %>'" 
+							name='<%= project.item_name %>' >
 				    		<p>款式名称: <%= project.item_name %></p>
 				      		<p>款式编号: <%= project.ID %></p>
 							<p>款式种类: <%= project.type %></p>
-							<p>年销量: <%= project.annualsales %></p>
-							<p>月销量: <%= project.mounthlysales %></p>
 							<p>地区编号: <%= project.region_id %></p>
 							<p>销售渠道: <%= project.channel %></p>
 							<p>受众年龄: <%= project.agegroup %></p>

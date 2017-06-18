@@ -110,7 +110,7 @@ $("#submit").click(function () {
         contentType: 'application/json',
         success: function (data, status) {
             if (status == 'success') {
-                window.location.reload();
+                window.location.href=document.referrer;
             }
         },
         error: function (data, status) {

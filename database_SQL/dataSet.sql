@@ -1,4 +1,8 @@
 set sql_safe_updates = 0;
+
+delete from pictures_items_relation;
+delete from annualsales;
+delete from monthlysales;
 delete from attrTable; 
 delete from sales;
 delete from items;
@@ -169,19 +173,30 @@ insert into pictures(pic_id, pic_path, pro_id) values(5, 'home/w2w/pic5', 3);
 
 #items 初始化
 #插入item属于类型‘21’（衬衫），对应的图片是‘1’号图片， ID为自动增量生成，createTime 这里暂时没管
-insert into items(ID, item_name, cata_id, pic_id) values('1', '好看的衣服', '23', '1');  
-insert into items(ID, item_name, cata_id, pic_id) values('2', '好看的衣服', '41', '2');  
-insert into items(ID, item_name, cata_id, pic_id) values('3', '好看的衣服', '27', '3');  
-insert into items(ID, item_name, cata_id, pic_id) values('4', '好看的衣服', '22', '4');  
-insert into items(ID, item_name, cata_id, pic_id) values('5', '好看的衣服', '27', '5');  
+insert into items(ID, item_name, cata_id) values('1', '好看的衣服', '23');  
+insert into items(ID, item_name, cata_id) values('2', '好看的衣服', '41');  
+insert into items(ID, item_name, cata_id) values('3', '好看的衣服', '27');  
+insert into items(ID, item_name, cata_id) values('4', '好看的衣服', '22');  
+insert into items(ID, item_name, cata_id) values('5', '好看的衣服', '27');  
 #插入item属于类型‘31’（西裤），对应的图片是‘1’号图片， 与之前为1的为同一张图片
-insert into items(ID, item_name, cata_id, pic_id) values('11', '好看的衣服', '33', '1'); 
-insert into items(ID, item_name, cata_id, pic_id) values('12', '好看的衣服', '39', '3');  
-insert into items(ID, item_name, cata_id, pic_id) values('13', '好看的衣服', '39', '4');  
-insert into items(ID, item_name, cata_id, pic_id) values('14', '好看的衣服', '39', '4');  
-insert into items(ID, item_name, cata_id, pic_id) values('15', '好看的衣服', '39', '5');
+insert into items(ID, item_name, cata_id) values('11', '好看的衣服', '33'); 
+insert into items(ID, item_name, cata_id) values('12', '好看的衣服', '39');  
+insert into items(ID, item_name, cata_id) values('13', '好看的衣服', '39');  
+insert into items(ID, item_name, cata_id) values('14', '好看的衣服', '39');  
+insert into items(ID, item_name, cata_id) values('15', '好看的衣服', '39');
 
- 
+#pictures_items_relation init
+insert into pictures_items_relation(ID, pic_id) values(1, 1);
+insert into pictures_items_relation(ID, pic_id) values(2, 2);
+insert into pictures_items_relation(ID, pic_id) values(3, 3);
+insert into pictures_items_relation(ID, pic_id) values(4, 4);
+insert into pictures_items_relation(ID, pic_id) values(5, 5);
+insert into pictures_items_relation(ID, pic_id) values(11, 1);
+insert into pictures_items_relation(ID, pic_id) values(12, 3);
+insert into pictures_items_relation(ID, pic_id) values(13, 4);
+insert into pictures_items_relation(ID, pic_id) values(14, 4);
+insert into pictures_items_relation(ID, pic_id) values(15, 5);
+
 #attrTable初始化
 #完成第1件商品的标注
 #第1件商品(ID=1)的颜色属性(attrn_id=1)为黑色(attrv_id=1)
@@ -201,13 +216,40 @@ insert into attrTable(ID, attrn_id, attrv_id) values(2, 11, 101);
 #之后还有几件就先不标了。。
 
 #sales初始化
-insert into sales(ID, annualsales, mounthlysales) values(1, 11000, 11000/12);
-insert into sales(ID, annualsales, mounthlysales) values(2, 12000, 12000/12);
-insert into sales(ID, annualsales, mounthlysales) values(3, 13000, 13000/12);
-insert into sales(ID, annualsales, mounthlysales) values(4, 14000, 14000/12);
-insert into sales(ID, annualsales, mounthlysales) values(5, 15000, 15000/12);
-insert into sales(ID, annualsales, mounthlysales) values(11, 16000, 16000/12);
-insert into sales(ID, annualsales, mounthlysales) values(12, 17000, 17000/12);
-insert into sales(ID, annualsales, mounthlysales) values(13, 18000, 18000/12);
-insert into sales(ID, annualsales, mounthlysales) values(14, 19000, 19000/12);
-insert into sales(ID, annualsales, mounthlysales) values(15, 20000, 20000/12);
+insert into sales(ID, region_id, channel,agegroup) values(1, 1, '线上','青少年');
+insert into sales(ID, region_id, channel,agegroup) values(2, 2, '线上','中年');
+insert into sales(ID, region_id, channel,agegroup) values(3, 2, '线上','儿童');
+insert into sales(ID, region_id, channel,agegroup) values(4, 3, '线上','青少年');
+insert into sales(ID, region_id, channel,agegroup) values(5, 4, '线下','中年');
+
+insert into annualsales(ID,year,amount)values(1,2017,10000);
+insert into annualsales(ID,year,amount)values(1,2016,10600);
+insert into annualsales(ID,year,amount)values(1,2015,10100);
+insert into annualsales(ID,year,amount)values(1,2014,9000);
+insert into annualsales(ID,year,amount)values(1,2013,12000);
+insert into annualsales(ID,year,amount)values(2,2017,20000);
+insert into annualsales(ID,year,amount)values(2,2016,20400);
+insert into annualsales(ID,year,amount)values(3,2017,15000);
+insert into annualsales(ID,year,amount)values(3,2016,15300);
+insert into annualsales(ID,year,amount)values(4,2017,40000);
+insert into annualsales(ID,year,amount)values(4,2016,40200);
+insert into annualsales(ID,year,amount)values(5,2017,20000);
+insert into annualsales(ID,year,amount)values(5,2016,20100);
+
+
+insert into monthlysales(ID,month,amount)values(1,1,2000);
+insert into monthlysales(ID,month,amount)values(1,2,1000);
+insert into monthlysales(ID,month,amount)values(1,3,2030);
+insert into monthlysales(ID,month,amount)values(1,4,4000);
+insert into monthlysales(ID,month,amount)values(1,5,2100);
+insert into monthlysales(ID,month,amount)values(1,6,5000);
+insert into monthlysales(ID,month,amount)values(1,7,200);
+insert into monthlysales(ID,month,amount)values(1,8,123);
+insert into monthlysales(ID,month,amount)values(1,9,432);
+insert into monthlysales(ID,month,amount)values(1,10,342);
+insert into monthlysales(ID,month,amount)values(1,11,234);
+insert into monthlysales(ID,month,amount)values(1,12,543);
+insert into monthlysales(ID,month,amount)values(2,1,1000);
+insert into monthlysales(ID,month,amount)values(3,1,1500);
+insert into monthlysales(ID,month,amount)values(4,1,4000);
+insert into monthlysales(ID,month,amount)values(5,1,2000);

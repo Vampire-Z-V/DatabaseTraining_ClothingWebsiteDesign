@@ -1,3 +1,4 @@
+drop table if exists pictures_items_relation;
 drop table if exists users;
 drop table if exists monthlysales;
 drop table if exists annualsales;
@@ -59,12 +60,11 @@ create table items(
 	ID varchar(7) not null,
     item_name varchar(50) not null,
     cata_id int(11) not null,
-    pic_id int not null,
 	createTime Date,
     primary key (ID),
-    foreign key (cata_id) references catagory(cata_id),
-    foreign key (pic_id) references pictures(pic_id)
+    foreign key (cata_id) references catagory(cata_id)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
 
 create table attrTable(
 	attrTable_id int auto_increment not null,
@@ -122,4 +122,12 @@ create table users(
 	createdAt datetime,
 	updatedAt datetime,
 	primary key(ID)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table pictures_items_relation(
+     ID varchar(7) not null,
+     pic_id int not null,
+     primary key(ID,pic_id),
+     foreign key (ID) references items(ID),
+     foreign key (pic_id) references pictures(pic_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -6,12 +6,12 @@
 
 drop view if exists items_catagory_subview;
 create view items_catagory_subview as 
-select item_name,pic_id,ID, cata_id, cata_name, parent_id
+select item_name,ID, cata_id, cata_name, parent_id
 from items natural join catagory;
     
 drop view if exists items_catagory_view ;
 create view items_catagory_view as (
-select T.item_name,T.pic_id,T.ID, T.cata_name as type, catagory.cata_name as group_name
+select T.item_name,T.ID, T.cata_name as type, catagory.cata_name as group_name
 from items_catagory_subview as T, catagory
 where T.parent_id = catagory.cata_id
 );
