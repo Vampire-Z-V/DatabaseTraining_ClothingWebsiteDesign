@@ -3,6 +3,8 @@
 <head>
 	<title>服装商城管理系统</title>
 	<link rel="stylesheet" href="/stylesheets/style.css">
+	<link rel="stylesheet" href="/stylesheets/common.css" />
+	<link rel="stylesheet" href="/stylesheets/upload.css" />
 	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
 	<!--注意加载顺序-->
 	<script src="/javascripts/jquery.min.js"></script>
@@ -30,98 +32,88 @@
   </nav>
 
     <h1 style="text-align: center"><%= title %></h1>
-    <form method="post" enctype="multipart/form-data">
-	    <ul class="list-group">
-	    	<li class="list-group-item" style="text-align:left">
+    <ul class="list-group">
+		<!-- 这里使用form是为了使用required属性 -->
+		<form method="post" enctype="multipart/form-data" role="form" onsubmit="return false">
+			<li class="list-group-item" style="text-align:left">
+				<select id="year">
+					<option value="2010">2010</option>
+					<option value="2011">2011</option>
+					<option value="2012">2012</option>
+					<option value="2013">2013</option>
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+				</select>
+				<select id="seasion">
+					<option value="春季">春季</option>
+					<option value="夏季">夏季</option>
+					<option value="秋季">秋季</option>
+					<option value="冬季">冬季</option>
+				</select>
 	    		<label>
-	    			请输入任务名称：<input type="text" name="name" />
+	    			请输入任务名称：<input type="text" name="name" id="name" required>
 	    		</label>
 	    	</li>
+			<li class="list-group-item">
 
-	    	<li class="list-group-item">
-				<p>非走秀图片</p>
-
-				<div id="NonShowedPhotoDiv"></div>
-
-				<div>
-					<!-- multiple是html5的新属性 -->
-					<input type="file" name="NonShowedPhoto" id="NonShowedPhoto" accept="image/jpeg,image/png" multiple>
-
+				<div class="img-box full">
+					<section class=" img-section">
+						<p class="up-p">非走秀图片:<span class="up-span">最多可以上传5张图片，马上上传</span></p>
+						<div class="z_photo upimg-div clear" >
+								 <section class="z_file fl">
+									<img src="/image/used/background.png" class="add-img">
+									<input type="file" id="NonShowedPhoto" class="file" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple required>
+								 </section>
+						 </div>
+					 </section>
 				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p">
+							<span class="del-com wsdel-ok">确定</span>
+							<span class="wsdel-no">取消</span>
+						</p>
+					</div>
+				</aside>
 			</li>
 
 			<li class="list-group-item">
-				<p>走秀图片</p>
-
-				<div id="ShowedPhotoDiv"></div>
-
-				<div>
-					<!-- multiple是html5的新属性 -->
-					<input type="file" name="ShowedPhoto" id="ShowedPhoto" accept="image/jpeg,image/png" multiple>
+				<div class="img-box full">
+					<section class=" img-section">
+						<p class="up-p">走秀图片: <span class="up-span">最多可以上传5张图片，马上上传</span></p>
+						<div class="z_photo upimg-div clear" >
+								 <section class="z_file fl">
+									<img src="/image/used/background.png" class="add-img">
+									<input type="file" id="ShowedPhoto" class="file" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple required>
+								 </section>
+						 </div>
+					 </section>
 				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p">
+							<span class="del-com wsdel-ok">确定</span>
+							<span class="wsdel-no">取消</span>
+						</p>
+					</div>
+				</aside>
 			</li>
 			<legend></legend>
 			<div style="text-align:center">
-	    		<input type="submit" class="btn btn-primary" value="创建">
-	    	</div>>
-		</ul>
-	</form>
+		    	<input type="submit" class="btn btn-primary" id="button" value="创建">
+			</div>
+		</form>
+	</ul>
+	
+	
 
-	<script type="text/javascript">
-		$('#NonShowedPhoto').change(function(){
-			// this.files返回当前选择的文件的对象
-			console.log(this.files);
-			var count = this.files.length;
-			var objUrl = getObjectURL(this.files);
-			for(var i=0; i<count; i++)
-			{
-				//只在上传的时候设置样式
-				$('#NonShowedPhotoDiv').attr("class", "photo");
-				//动态创建图片展示框架用于预览
-				$('#NonShowedPhotoDiv').append(`<img class="photo" src="" id="NonShowedImg${i}" >`);
-				if (objUrl[i]) {
-			        $(`#NonShowedImg${i}`).attr("src", objUrl[i]);
-			    }
-			}
-		});
-
-		$('#ShowedPhoto').change(function(){
-			// this.files返回当前选择的文件的对象
-			console.log(this.files);
-			var count = this.files.length;
-			var objUrl = getObjectURL(this.files);
-			for(var i=0; i<count; i++)
-			{
-				//只在上传的时候设置样式
-				$('#ShowedPhotoDiv').attr("class", "photo");
-				//动态创建图片展示框架用于预览
-				$('#ShowedPhotoDiv').append(`<img class="photo" src="" id="ShowedImg${i}" >`);
-				if (objUrl[i]) {
-			        $(`#ShowedImg${i}`).attr("src", objUrl[i]);
-			    }
-			}
-		});
-
-		//使用HTML5的File API,获取file在电脑上的url，实现预览
-		function getObjectURL(files) {
-		    var url = new Array(files.length);
-		    var temp = '';
-		    //解析得到即将上传文件的url用于预览
-		    for(var i=0; i<files.length; i++)
-			{
-				if (window.createObjectURL!=undefined) { // basic
-			        temp = window.createObjectURL(files[i]);
-			    } else if (window.URL!=undefined) { // mozilla(firefox)
-			        temp = window.URL.createObjectURL(files[i]);
-			    } else if (window.webkitURL!=undefined) { // webkit or chrome
-			        temp = window.webkitURL.createObjectURL(files[i]);
-			    }
-
-			    //console.log(temp);
-			    url[i] = temp;
-			}
-		    return url ;
-		}
-	</script>
+	<script src="/javascripts/uploadImg.js"></script>
 </body>
 </html>
