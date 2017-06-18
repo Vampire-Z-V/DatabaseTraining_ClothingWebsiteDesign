@@ -140,7 +140,6 @@ var label = function (router, model) {
                 done_pictures_datas.push(done_pictures_data);
             }
             //console.log(done_pictures);//抽出pic_path
-            console.log(done_pictures_datas[0].items);
             res.render("label", {
                 title: "Label Page",
                 path: path,
@@ -230,7 +229,7 @@ var label = function (router, model) {
                         console.log('failed: ' + err);
                     });
                 });
-            } else if (p.option == 'insert'){
+            } else if (p.option == 'insert') {
                 //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
                 //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
                 var handled_ID = year + pid + p.type_id;
@@ -264,8 +263,14 @@ var label = function (router, model) {
                 }).catch(function (err) {
                     console.log('failed: ' + err);
                 });
-            }else{//同款
+            } else {//同款 ----->创建关联
                 console.log(p);
+                // (async () => {
+                //     var sequelize = model.sequelize;
+                //     await sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
+                //         { replacements: { ID: [p.ID], pic_id: [pid] }, type: sequelize.QueryTypes.INSERT }
+                //     );
+                // })();
             }
         }
         (async () => {
@@ -330,7 +335,7 @@ var label = function (router, model) {
                     }
                 }
                 console.log(items_data);
-                res.render('ejs/label.ejs', {'items': [items_data]});
+                res.render('ejs/label.ejs', { 'items': [items_data] });
             })();
             // sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
             //     { replacements: { ID: [same_item.ID], pic_id: [same_item.pic_id] }, type: sequelize.QueryTypes.INSERT }

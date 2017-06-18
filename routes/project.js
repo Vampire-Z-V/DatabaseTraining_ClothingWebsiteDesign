@@ -26,7 +26,7 @@ var project = function (router, model) {
                     title: 'Express',
                     undo_pictures: undo,
                     done_pictures: done,
-                    //pro_id:id
+                    pro_id:id
                 });
             })
         })
