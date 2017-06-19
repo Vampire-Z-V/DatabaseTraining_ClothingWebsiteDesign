@@ -78,9 +78,11 @@ $(document).ready(function () {
             success: function (data, status) {
                 if (status == 'success') {
                     if (data == '服装设计师')
-                        location.href = 'designer';
+                        location.href = '/designer';
+                    else if(data === '销售管理员')
+                        location.href = '/stocks';
                     else
-                        location.href = 'home';
+                        location.href = '/home'
                 }
             },
             error: function (data, status) {
