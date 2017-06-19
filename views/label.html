@@ -71,9 +71,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-container" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel" style="margin-top: 10%;margin-left: auto; margin-right: auto;">
+    <div class="modal-dialog" style="width: inherit;">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" type="button" data-dismiss="modal">取消</button>
+                <button class="btn btn-success submit" type="button" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="application/javascript">
     var groups = JSON.parse(JSON.stringify(<%- JSON.stringify(groups) %>));
-    var items = JSON.parse(JSON.stringify(<%- JSON.stringify(items) %>));
+    var items = JSON.parse(JSON.stringify(<%- JSON.stringify(items) %>))
+    var done_pictures = JSON.parse(JSON.stringify(<%- JSON.stringify(done_pictures) %>));
 </script>
 <script type="text/javascript" src="/javascripts/label.js"></script>
 </body>

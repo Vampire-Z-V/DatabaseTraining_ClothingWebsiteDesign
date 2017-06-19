@@ -25,7 +25,8 @@ var project = function (router, model) {
                 res.render('project', {
                     id: id,
                     undo_pictures: undo,
-                    done_pictures: done
+                    done_pictures: done,
+                    pro_id:id
                 });
             })
         })

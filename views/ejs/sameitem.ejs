@@ -1,0 +1,8 @@
+<div id="choose-same-item" style="height: 400px; overflow-y: auto;">
+    <div style="width: 900px; margin-left: auto; margin-right: auto;">
+        <% pictures.forEach(function(picture){ %>
+            <input id="<%= picture.itemID %>" type="radio" name="sametype" style="display: none;">
+            <label for="<%= picture.itemID %>"><img class="sametype-photo" src="image/<%= picture.path %>"></label>
+        <% }) %>
+    </div>
+</div>

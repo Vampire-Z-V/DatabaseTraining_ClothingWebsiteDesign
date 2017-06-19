@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>服装商城管理系统</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css" media="screen">
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <script src="/javascripts/photowallscroll.js"></script>
+  <link rel="stylesheet" href="/stylesheets/photo.css">
+</head>
+<body>
+  <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header navbar-brand" >
+            服装商城管理系统
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/home">未完成任务</a></li>
+
+              <li><a href="/complete">已完成任务</a></li>
+              <li><a href="/upload">创建任务</a></li>
+
+                <li><a href="#">欢迎,<%= user.name %></a></li>
+                <li><a href="/logout">注销</a></li>
+            </ul>
+        </div>
+      </div>
+  </nav>
+
+
+
+  <div class="container">
+    <legend></legend>
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <p>任务详情：</p>
+            <p>创建时间：</p>
+            <p>任务编号：</p>
+        </div>
+
+
+        <ul class="list-group">  
+            <li class="list-group-item">
+              <div class="wall">
+                <p class="tag"> 待处理图片 </p>
+                <div class="photo-wall" id="waiting" onMouseOver="show_scroll(this);" onMouseOut="hide_scroll(this);">
+                  <div class="horizontal-box">
+                    <% undo_pictures.forEach(function(undo) { %>
+                      <a href='/label?pid=<%= undo.pic_id %>&path=<%= undo.pic_path %>&pro_id=<%= pro_id %>'>
+                      <img src="/image/<%= undo.pic_path %>" class="photo-onshow" />
+                      </a>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="list-group-item">
+              <div class="wall">
+                <p class="tag"> 已处理图片 </p>
+                <div class="photo-wall" id="processed" onMouseOver="show_scroll(this);" onMouseOut="hide_scroll(this);">
+                  <div class="horizontal-box">
+                    <% done_pictures.forEach(function(done) { %>
+                      <a href='/label?pid=<%= done.pic_id %>&path=<%= done.pic_path %>&pro_id=<%= pro_id %>'>
+                      <img src="/image/<%= done.pic_path %>" class="photo-onshow" />
+                      </a>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </li>
+        </ul>  
+
+    </div>
+  </div>
+</body>
+</html>
