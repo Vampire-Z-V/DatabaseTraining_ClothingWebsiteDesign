@@ -43,16 +43,17 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading">搜索结果</div>
 		    <ul class="list-group" id="list">
-		        <% if (projects.length) { %>  
+		        <% if (stocks.length) { %>  
 				  <ul class="list-group">  
-				    <% projects.forEach(function(project){ %>  
-				    	<li class="list-group-item" onclick="location.href='project?id=<%= project.pro_id %>'" 
-							name='<%= project.pro_name %>'>
+				    <% stocks.forEach(function(stock){ %>  
+				    	<li class="list-group-item" name='<%= stock.name %>'>
 				    		
-				    		<p>任务名: <%= project.pro_name %></p>
+				    		<p>款式名: <%= stock.name %></p>
 				      		
-				      		<p>状态：未完成</p>
-				    	</li>  
+				      		<p>货号：<%= stock.stocks_id %></p>
+				      		<p>库存量：<%= stock.stocks_num %></p>
+				      		<img src=<%= stock.path %> />
+				    	</li>
 				    <% }) %>  
 				  </ul>  
 				<% } %>

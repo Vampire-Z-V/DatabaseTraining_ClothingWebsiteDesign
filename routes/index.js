@@ -7,7 +7,8 @@ var register = require('./register');
 var project = require('./project');
 var upload = require('./upload');
 var home = require('./home');
-var designer = require('./designer')
+var designer = require('./designer');
+var stocks = require('./stocks');
 
 var complete = require('./complete');
 
@@ -34,6 +35,8 @@ register(router, model);
 home(router, model);
 
 designer(router, model);
+
+stocks(router, model);
 
 complete(router, model);
 

@@ -22,8 +22,8 @@ var project = function (router, model) {
                 pic_status: 'done'
             }})
             .then(done=>{
-                res.render('pictures', {
-                    title: 'Express',
+                res.render('project', {
+                    id: id,
                     undo_pictures: undo,
                     done_pictures: done,
                     pro_id:id
@@ -32,6 +32,29 @@ var project = function (router, model) {
         })
     });
    
+   router.post('/project', function(req, res){
+        var id = req.body.id;
+        var Project = model.project;
+        var Pictures = model.pictures;
+        Pictures.findAll({where:{pro_id: id, pic_status: 'undo'}})
+            .then(data=>{
+                if(!data){
+                    Project.update({pro_status:'done'}, {where: {pro_id: id}})
+                        .then(data=>{
+                            res.json(['success']);
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                        });
+                }else{
+                    res.json(['fail']);
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        
+   })
 };
 
 module.exports = project;
