@@ -104,6 +104,7 @@ model.attrname = sequelize.define('attrName', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
+//这个表有问题吧？
 model.sales = sequelize.define('sales', {
 	ID: {
 		type: Sequelize.STRING,
@@ -115,6 +116,22 @@ model.sales = sequelize.define('sales', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
+
+model.stocks = sequelize.define('stocks', {
+	stocks_id: {
+		type: Sequelize.INTEGER,
+		primaryKey: true,
+		autoIncrement: true
+	},
+	ID: Sequelize.STRING(7),
+	size: Sequelize.ENUM('80', '90', '100', '110', '120', '130', '140', '150', '155', '160', '165', '170', '175', '180'),
+	stocks_num: Sequelize.INTEGER
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
 model.attrvalue = sequelize.define('attrValue', {
 	attrv_id: {
 		type: Sequelize.INTEGER,
