@@ -34,7 +34,7 @@
 	<div class="container">
 		<legend></legend>
 		<div style="text-align: right">
-			<input type="button" id="completeBtn" name=<%= id %> value="完成任务" />
+			<input type="submit" id="completeBtn" name=<%= id %> value="完成任务" />
 		</div>
 		<div class="panel panel-info">
 				
@@ -78,26 +78,21 @@
 			</ul>  
 
 		</div>
+		
 	</div>
 	<script type="text/javascript">
 		$(function(){
 			$('#completeBtn').click(function(){
-				var id = $(this).attr('name');
-				var formData = new FormData();
-				formData.append('id', id);
 				$.ajax({
 					url: "/project",
 			        type: "POST",
-			        data: formData,
 			        processData: false, 
 			        contentType: false,
 			        success: function(data, status){
-			        	// location.href ='/complete';
-			        	// console.log(data);
-			        	// console.log(data[0]);
 			        	if(data[0] === 'success'){
 			        		location.href ='/complete';
-			        	}else{
+			        	}
+			        	if(data[0] === 'fail'){
 			        		alert('还有未处理完的图片');
 			        	}
 			        }
