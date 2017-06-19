@@ -139,8 +139,6 @@ var label = function (router, model) {
                 }
                 done_pictures_datas.push(done_pictures_data);
             }
-            //console.log(done_pictures);//抽出pic_path
-            //console.log(done_pictures_datas[0].items);
             res.render("label", {
                 title: "Label Page",
                 path: path,
@@ -265,8 +263,13 @@ var label = function (router, model) {
                 }).catch(function (err) {
                     console.log('failed: ' + err);
                 });
-            }else{//同款
-                console.log(p);
+            } else {//同款 ----->创建关联
+                (async () => {
+                    var sequelize = model.sequelize;
+                    var message = await sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
+                        { replacements: { ID: [p.ID], pic_id: [pid] }, type: sequelize.QueryTypes.INSERT }
+                    );
+                })();
             }
         }
         (async () => {
@@ -335,7 +338,6 @@ var label = function (router, model) {
                         items_data.attributes.push(attribute_obj);
                     }
                 }
-                console.log(items_data);
                 res.render('ejs/label.ejs', {'items': [items_data]});
             })();
             // sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
