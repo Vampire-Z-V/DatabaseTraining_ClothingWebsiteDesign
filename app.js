@@ -26,12 +26,11 @@ app.use(session({
 app.use(function (req, res, next) {
 	//这些步骤的目的是？？？
 	res.locals.user = req.session.user;
-	var err = req.session.error;
-	delete req.session.error;
+	var msg = req.session.msg;
+	delete req.session.msg;
 	res.locals.message = "";
-	if(err) {
-		res.locals.message = '<div class="alert alert-danger" style="margin-bottom:20px;color:red;">'
-			+err+'</div>';
+	if(msg) {
+		res.locals.message = msg;
 	}
 	next();
 });

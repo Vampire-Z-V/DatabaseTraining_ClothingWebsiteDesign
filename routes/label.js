@@ -6,8 +6,10 @@ var pid;
 var label = function (router, model) {
     router.get('/label', function (req, res) {
         if (!req.session.user) {
-            req.session.error = "请先登录";
-            res.redirect('/index');
+            res.status(401).render('ejs/messege.ejs', { msg: "Please login first.", status: 401 }, function (error, string) {
+                req.session.msg = string;
+                res.redirect('/index');
+            });
         }
         var string = url.parse(req.url).query;
         var object = query.parse(string);
@@ -227,7 +229,7 @@ var label = function (router, model) {
                         console.log('failed: ' + err);
                     });
                 });
-            } else if (p.option == 'insert'){
+            } else if (p.option == 'insert') {
                 //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
                 //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
                 var handled_ID = year + pid + p.type_id;
@@ -336,7 +338,7 @@ var label = function (router, model) {
                         items_data.attributes.push(attribute_obj);
                     }
                 }
-                res.render('ejs/label.ejs', {'items': [items_data]});
+                res.render('ejs/label.ejs', { 'items': [items_data] });
             })();
             // sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
             //     { replacements: { ID: [same_item.ID], pic_id: [same_item.pic_id] }, type: sequelize.QueryTypes.INSERT }
