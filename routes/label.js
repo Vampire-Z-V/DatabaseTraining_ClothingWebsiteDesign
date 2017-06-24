@@ -1,7 +1,5 @@
 var url = require('url');
 var query = require('querystring');
-var testitems = require('../public/json/items.json');
-var testgroups = require('../public/json/groups.json');
 
 var pid;
 
