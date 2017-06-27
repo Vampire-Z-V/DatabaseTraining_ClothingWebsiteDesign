@@ -1,24 +1,33 @@
 <% items.forEach(function(item) { %>
-<div class="panel panel-success">
+<% if(item.hasOwnProperty("option")) { %>
+    <% if(item["option"] === "insert") { %>
+        <div class="panel panel-info">
+    <% } else { %>
+        <div class="panel panel-warning">
+    <% } %>
+<% } else if(item.hasOwnProperty("is_same_items")) { %>
+    <div class="panel panel-info">
+<% } else { %>
+    <div class="panel panel-success">
+<% } %>
     <div class="panel-heading">
         <table width="100%">
             <tr>
                 <td class="td-title" width="90%">
                     <a class="collapse-panel-body" href="#">
                         <div style="width: inherit;">
-                            <div class="icon-arrow"></div>
-                            <span class="tag"> <%= item.group %>:<%= item.type %> </span>
+                            <div class="arrow"></div>
+                            <span class="tag" name="<%= item.type %>"><%= item.group %>:<%= item.type %></span>
                         </div>
                     </a>
                 </td>
-                <td class="td-edit" style="text-align: center">
-                    <span class="glyphicon glyphicon-edit icon-cross" style="margin-top: 2px"></span>
+                <td class="td-edit" style="text-align: center" width="5%">
+                    <% if(!item.hasOwnProperty("is_same_items")) { %>
+                        <span class="glyphicon glyphicon-edit icon-style edit"></span>
+                    <% } %>
                 </td>
-
-                <td class="td-remove" style="text-align: center">
-                    <a class="remove" href="#">
-                        <span class="glyphicon glyphicon-trash icon-cross" style="margin-top: 2px"></span>
-                    </a>
+                <td class="td-remove" style="text-align: center" width="5%">
+                    <span class="glyphicon glyphicon-trash icon-style remove"></span>
                 </td>
             </tr>
         </table>
@@ -26,12 +35,9 @@
     <div class="panel-collapse">
         <div class="panel-body">
             <% item.attributes.forEach(function(attr) { %>
-
                 <% attr.attr_values.forEach(function(value) { %>
-            
                     <span class="label label-info" name="<%= attr.attr_name %>"><%= value %></span>
                 <% }) %>
-
             <% }) %>
         </div>
     </div>

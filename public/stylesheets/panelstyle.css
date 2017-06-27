@@ -5,26 +5,29 @@
 
 }
 
-#photo-panel{
+#photo-panel {
     height: 700px;
-    text-align:center;
+    text-align: center;
 }
 
 .panel-hide {
     display: none;
 }
 
-.icon-arrow{
+.arrow {
+    color: #289fc4;
     display: inline-block;
     border-right: 3px solid;
     border-bottom: 3px solid;
-    width: 9px; height: 9px;
+    width: 9px;
+    height: 9px;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     -webkit-transition: .3s;
     transition: .3s;
 }
-.panel-body-open > div .icon-arrow {
+
+.panel-body-open > div .arrow {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
@@ -33,29 +36,43 @@
     overflow: hidden;
 }
 
-.blank{
+.blank {
     width: 5px;
 }
 
-.icon-cross, .icon-arrow {
+.icon-style {
     color: #289fc4;
+    cursor: pointer;
+    margin-top: 2px;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
 }
 
-.icon-cross:hover {
+.icon-style:hover {
     color: #ff0000;
 }
 
-.icon-cross:active {
+.icon-style:active {
     color: #cc0000
+}
+
+.panel-success > .panel-heading:hover {
+    color: #3c763d;
+    background-color: #d4f0cc;
+    border-color: #d6e9c6;
 }
 
 a:hover, a:link, a:active, a:visited {
     text-decoration: none;
 }
-.tag{
+
+.tag {
     color: #000000;
 }
-.collapse-panel-body{
+
+.collapse-panel-body {
     padding-left: 0px;
 
 }
@@ -66,27 +83,49 @@ hr {
     border-top: 1px dashed #000000;
 }
 
-img{
+img {
     /*margin-bottom: 10px;*/
     height: 100%;
     /*vertical-align: middle;*/
 }
 
-.panel-body label {
-    
-    
+.panel-body label,
+span.addAttributes,
+.modal-body label{
     cursor: pointer;
 }
 
 .panel-body input[type=checkbox]:checked + label .label,
-.panel-body input[type=radio]:checked + label .label{
+.panel-body input[type=radio]:checked + label .label {
     background: #26ca28;
 }
 
-label .label{
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -ms-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    transition: all .5s ease;
+.label-color-change {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.unclickable,
+.unclickable:hover {
+    background: #26ca28;
+    cursor: default;
+}
+
+.sametype-photo {
+    height: 280px;
+    width: 200px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    border:2px solid rgba(255, 255, 255, 0);
+    border-radius: 5px;
+}
+
+.sametype-photo:hover{
+    border:2px solid #17f8ff;
+}
+
+.modal-body input:checked + label .sametype-photo{
+    border:2px solid #007cff;
 }

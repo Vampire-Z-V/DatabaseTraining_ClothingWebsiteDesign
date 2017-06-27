@@ -7,6 +7,8 @@ var register = require('./register');
 var project = require('./project');
 var upload = require('./upload');
 var home = require('./home');
+var designer = require('./designer');
+var stocks = require('./stocks');
 
 var complete = require('./complete');
 
@@ -14,9 +16,13 @@ var label = require('./label');
 
 /* GET home page. */
 //test
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
+	res.redirect('/index');
+});
+
+router.get('/index', function (req, res, next) {
 	res.render('index', {
-		title: 'Express'
+		title: 'Welcome'
 	});
 });
 
@@ -26,18 +32,20 @@ login(router, model);
 //注册路由
 register(router, model);
 
-
 home(router, model);
 
-complete(router, model);
+designer(router, model);
 
+stocks(router, model);
+
+complete(router, model);
 
 label(router, model);
 
 router.get('/logout', function (req, res) {
 	req.session.user = null;
 	req.session.error = null;
-	res.redirect('/');
+	res.redirect('/index');
 });
 
 upload(router, model);

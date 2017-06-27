@@ -2,77 +2,96 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>
-    <%= title %>
-  </title>
-  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-  <link rel="stylesheet" href="/stylesheets/panelstyle.css">
-  <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
-  <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
-  <script>
-    var groups = JSON.parse('<%- JSON.stringify(groups) %>');
-  </script>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/panelstyle.css">
+    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+
 </head>
 
 <body>
-  <nav class="navbar navbar-default" role="navigation">
-
-      <div class="container-fluid">
-        <div class="navbar-header navbar-brand" >
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header navbar-brand">
             服装商城管理系统
         </div>
         <div>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="/home">未完成任务</a></li>
-              <li><a href="/complete">已完成任务</a></li>
-              <li><a href="/upload">创建任务</a></li>
+                <li><a href="/home">未完成任务</a></li>
+                <li><a href="/complete">已完成任务</a></li>
+                <li><a href="/upload">创建任务</a></li>
                 <li><a href="#">欢迎,<%= user.name %></a></li>
                 <li><a href="/logout">注销</a></li>
             </ul>
         </div>
-      </div>
-  </nav>
-  
+    </div>
+</nav>
 
-  <div class="container">
+
+<div class="container">
     <div class="row-fluid">
-      <div class="col-md-12">
-        <h1>
-          <%= path %>
-        </h1>
-      </div>
+        <div class="col-md-12">
+            <h1>
+                <%= path %>
+            </h1>
+        </div>
     </div>
     <div class="row">
-      <!--The photo on the left side-->
-      <div class="col-md-5 well photo-ontagging" id="photo-panel"> <img alt="140x140" src="/image/<%= path %>" class="img-rounded" style="width: 400px" /> </div>
-      <!--The processing platform on the right side-->
-      <div class="col-md-6 col-xs-offset-1 well" id="process-panel">
-
-        <!--The place where we save the success labels and add labels-->
-        <div class="panel-show" id="success-label-panel-border">
-          
-            <% include ejs/label.ejs %>
-
-          <!--Create a new label by this button-->
-          <button class="btn btn-info btn-block" type="button" id="add-label">添加标签</button>
-          <button class="btn btn-success btn-block" type="button" id="submit" disabled>提交</button>
+        <!--The photo on the left side-->
+        <div class="col-md-5 well photo-ontagging" id="photo-panel">
+            <img alt="140x140" src="/image/<%= path %>" class="img-rounded" style="width: 400px"/>
         </div>
+        <!--The processing platform on the right side-->
+        <div class="col-md-6 col-xs-offset-1 well" id="process-panel">
 
-        <!--The place where we set the attributes in a label. This place is hidden first.-->
-        <div class="panel-show panel-hide">
-          <div class="subpanel groups-panel" id="panel-parent-groups">
-            <% include ejs/typelist.ejs %>
-          </div>
+            <!--The place where we save the success labels and add labels-->
+            <div class="panel-show" id="success-label-panel-border">
 
-          <div class="subpanel attr-panel panel-hide" id="panel-parent-attr">
-          </div>
-          <!--<button class="btn btn-warning btn-block" type="button" id="return">返回</button>-->
+                <% include ejs/label.ejs %>
+
+                <!--Create a new label by this button-->
+                <button class="btn btn-info btn-block" type="button" id="add-label">添加标签</button>
+                <button class="btn btn-success btn-block" type="button" id="submit" disabled>提交</button>
+            </div>
+
+            <!--The place where we set the attributes in a label. This place is hidden first.-->
+            <div class="panel-show panel-hide">
+                <div class="subpanel typelist-panel groups-panel" id="panel-parent-groups">
+                    <% include ejs/typelist.ejs %>
+                </div>
+
+                <div class="subpanel attr-panel panel-hide" id="panel-parent-attr">
+                </div>
+                <!--<button class="btn btn-warning btn-block" type="button" id="return">返回</button>-->
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <script type="text/javascript" src="/javascripts/process.js"></script>
+</div>
+
+<div class="modal fade" id="modal-container" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel" style="margin-top: 10%;margin-left: auto; margin-right: auto;">
+    <div class="modal-dialog" style="width: inherit;">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" type="button" data-dismiss="modal">取消</button>
+                <button class="btn btn-success submit" type="button" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+    var groups = JSON.parse(JSON.stringify(<%- JSON.stringify(groups) %>));
+    var items = JSON.parse(JSON.stringify(<%- JSON.stringify(items) %>))
+    var done_pictures = JSON.parse(JSON.stringify(<%- JSON.stringify(done_pictures) %>));
+</script>
+<script type="text/javascript" src="/javascripts/Label_FSM.js"> </script>
+<script type="text/javascript" src="/javascripts/label.js"></script>
 </body>
 
 </html>

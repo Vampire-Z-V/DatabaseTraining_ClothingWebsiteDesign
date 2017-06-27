@@ -1,0 +1,120 @@
+<!DOCTYPE html >
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>服装商城管理系统</title>
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+	<link rel="stylesheet" href="/stylesheets/xcharts.min.css" />
+	<!--注意加载顺序-->
+	<script src="/javascripts/jquery.min.js"></script>
+	<script src="/javascripts/bootstrap.min.js"></script>
+	<style type="text/css">
+		a {
+			margin-left: 20px;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header navbar-brand">
+				服装商城管理系统
+			</div>
+			<div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">欢迎,服装设计师 ：<%= user.name %></a></li>
+					<li><a href="/logout">注销</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<legend></legend>
+		<div class="panel panel-default">
+			<div class="panel-heading">款式详情</div>
+			<ul class="list-group">
+				<a href="#" class="list-group-item active">
+					<h4 class="list-group-item-heading">
+						年销售数据
+					</h4>
+				</a>
+				<% if (annualsales.length) { %>
+					<figure style="width: 800px; height: 600px;" id="annualsales_chart"></figure>
+					<% } %>
+			</ul>
+			<ul class="list-group">
+				<a href="#" class="list-group-item active">
+					<h4 class="list-group-item-heading">
+						月销售数据
+					</h4>
+				</a>
+				<% if (monthlysales.length) { %>
+					<figure style="width: 800; height: 600px;" id="monthlysales_chart"></figure>
+					<% } %>
+			</ul>
+		</div>
+	</div>
+	</script>
+	<script src="/javascripts/d3.min.js"></script>
+	<script src="/javascripts/xcharts.min.js"></script>
+	<script type="application/javascript">
+		var annualsales = JSON.parse(JSON.stringify(<%- JSON.stringify(annualsales) %>));
+		var monthlysales = JSON.parse(JSON.stringify(<%- JSON.stringify(monthlysales) %>));
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var annualsales_data = [];
+			var monthlysales_data = [];
+			// monthlysales.forEach(function (q) {
+			// 	monthlysales_data.push({
+			// 		"x": q.month,
+			// 		"y": q.amount
+			// 	});
+			// });
+			for (var i = 0; i < 12; i++) {
+				monthlysales_data.push({
+					"x": i+1,
+					"y": monthlysales[i].amount
+				});
+			}
+			var monthlysales_chart_data = {
+				"xScale": "ordinal",
+				"yScale": "linear",
+				"type": "line-dotted",
+				"main": [
+					{
+						"className": ".monthly",
+						"data": monthlysales_data
+					}
+				]
+			};
+			annualsales.forEach(function (project) {
+				annualsales_data.push({
+					"x": project.year,
+					"y": project.amount
+				});
+			});
+			var annualsales_chart_data = {
+				"xScale": "ordinal",
+				"yScale": "linear",
+				"type": "line-dotted",
+				"main": [
+					{
+						"className": ".annual",
+						"data": annualsales_data
+					}
+				]
+			};
+			var annualsales_chart = new xChart('bar', annualsales_chart_data, '#annualsales_chart');
+			var monthlysales_chart = new xChart('bar', monthlysales_chart_data, '#monthlysales_chart');
+		});
+	</script>
+</body>
+
+</html>
