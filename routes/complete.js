@@ -14,8 +14,6 @@ var complete = function (router, model) {
             	.catch(err=>{
             		console.log(err);
             	})
-
-			
 		});
 };
 

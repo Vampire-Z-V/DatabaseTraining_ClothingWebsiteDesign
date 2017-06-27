@@ -71,12 +71,18 @@
 		$(document).ready(function () {
 			var annualsales_data = [];
 			var monthlysales_data = [];
-			monthlysales.forEach(function (q) {
+			// monthlysales.forEach(function (q) {
+			// 	monthlysales_data.push({
+			// 		"x": q.month,
+			// 		"y": q.amount
+			// 	});
+			// });
+			for (var i = 0; i < 12; i++) {
 				monthlysales_data.push({
-					"x": q.month,
-					"y": q.amount
+					"x": i+1,
+					"y": monthlysales[i].amount
 				});
-			});
+			}
 			var monthlysales_chart_data = {
 				"xScale": "ordinal",
 				"yScale": "linear",
