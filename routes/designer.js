@@ -63,10 +63,10 @@ var designer = function (router, model) {
 			var object = query.parse(string);
 			var id = parseInt(object.id);
 			var sequelize = model.sequelize;
-			sequelize.query("SELECT * FROM `annualsales` WHERE ID = ?",
+			sequelize.query("SELECT * FROM `annualsales` WHERE ID = ? order by year",
 				{ replacements: [id], type: sequelize.QueryTypes.SELECT })
 				.then(annualsales => {
-					sequelize.query("SELECT * FROM `monthlysales` WHERE ID = ?",
+					sequelize.query("SELECT * FROM `monthlysales` WHERE ID = ? order by month",
 						{ replacements: [id], type: sequelize.QueryTypes.SELECT })
 						.then(monthlysales => {
 							console.log(monthlysales);
