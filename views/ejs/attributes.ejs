@@ -1,16 +1,20 @@
 <h3><%= group %>: <%= type %></h3>
 <input id="item-name" type="text" placeholder="item name" maxlength="4" value="<%= item_name %>">
-<button id="same-type" type="button" href="#modal-container" data-toggle="modal">选同款</button>
+<% if(has_sameitem) { %>
+    <button id="same-type" type="button" href="#modal-container" data-toggle="modal">选同款</button>
+<% } %>
 <hr/>
 
 <% for(var i=0; i<attributes.length; i++) { %>
     <div class="panel panel-info attribute" name="<%= attributes[i].attr_name %>" id="<%= attributes[i].attrn_id %>">
         <div class="panel-heading">
             <a class="panel-title collapsed" href="#subpanel-element-<%= i %>" data-toggle="collapse" data-parent="#panel-parent-attr">
-                <%= attributes[i].attr_name %>
-                <% if(attributes[i].multi) { %>
-                    (可多选)
-                <% } %>  
+                <div style="width: inherit;">
+                    <%= attributes[i].attr_name %>
+                    <% if(attributes[i].multi) { %>
+                        (可多选)
+                    <% } %>
+                </div>
             </a>
         </div>
         <div class="panel-collapse collapse" id="subpanel-element-<%= i %>">

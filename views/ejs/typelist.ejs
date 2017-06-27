@@ -2,7 +2,9 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <a class="panel-title collapsed" href="#panel-element-<%= i %>" data-toggle="collapse" data-parent="#panel-parent-groups">
-                <%= groups[i].group %>
+                <div style="width: inherit;">
+                    <%= groups[i].group %>
+                </div>
             </a>
         </div>
         <div class="panel-collapse collapse" id="panel-element-<%= i %>">

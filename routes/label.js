@@ -1,15 +1,15 @@
 var url = require('url');
 var query = require('querystring');
-var testitems = require('../public/json/items.json');
-var testgroups = require('../public/json/groups.json');
 
 var pid;
 
 var label = function (router, model) {
     router.get('/label', function (req, res) {
         if (!req.session.user) {
-            req.session.error = "请先登录";
-            res.redirect('/index');
+            res.status(401).render('ejs/messege.ejs', { msg: "Please login first.", status: 401 }, function (error, string) {
+                req.session.msg = string;
+                res.redirect('/index');
+            });
         }
         var string = url.parse(req.url).query;
         var object = query.parse(string);

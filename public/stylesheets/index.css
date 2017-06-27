@@ -8,6 +8,31 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.msg{
+    width: 100%;
+    height: 150px;
+    margin: auto; 
+    justify-content:center;
+    align-items:center;
+    display:-webkit-flex;
+}
+
+.msg-content{
+    width: 360px;
+    height: 50px;
+    background-color: rgba(247, 163, 163, 0.75);
+    color: rgb(195, 67, 67);
+    border-radius: 5px;
+    display: table;
+    text-align: center;
+}
+
+.login-register-page {
+    width: 360px;
+    padding: 0;
+    margin: auto;
+}
+
 .form-header {
     text-align: center;
 }
@@ -30,12 +55,6 @@ body {
     width: 70px;
     height: 6px;
     border-top: 1px solid #333;
-}
-
-.login-register-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
 }
 
 .field-wrap {
