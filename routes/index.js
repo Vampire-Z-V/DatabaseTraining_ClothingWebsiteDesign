@@ -16,7 +16,7 @@ var label = require('./label');
 
 /* GET home page. */
 //test
-router.get('/', function(req,res){
+router.get('/', function (req, res) {
 	res.redirect('/index');
 });
 

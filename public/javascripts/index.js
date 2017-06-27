@@ -1,6 +1,7 @@
 // JavaScript Document
 $(document).ready(function () {
     $('.message a').click(function () {
+        $('.msg').empty();
         $('form').animate({
             height: "toggle",
             opacity: "toggle"
@@ -8,6 +9,7 @@ $(document).ready(function () {
             $('#not-pass-confirm').css("display", "none");
             $('input').val('');
             $('label').removeClass('active highlight');
+            reset_input('.form input');
         });
     });
 
@@ -28,11 +30,11 @@ $(document).ready(function () {
         var confirm = $('#r-confirm').val();
 
         if (username != '') {
-            $('#r-username').css("border", "1px solid #d1d5da");
+            reset_input('#r-username');
             if (password != '' && password === confirm) {
                 $('#not-pass-confirm').css("display", "none");
-                $('#r-password').css("border", "1px solid #d1d5da");
-                $('#r-confirm').css("border", "1px solid #d1d5da");
+                reset_input('#r-password');
+                reset_input('#r-confirm');
                 $.ajax({
                     url: '/register',
                     type: 'post',
@@ -44,23 +46,23 @@ $(document).ready(function () {
 
                     success: function (data, status) {
                         if (status === 'success') {
-                            location.href = 'index';
+                            location.href = '/index';
                         }
                     },
 
                     error: function (data, status) {
-                        if (status === 'error') {
-
-                        }
+                        $('.msg').html(data.responseText);
+                        $('.msg-content').hide();
+                        $('.msg-content').fadeIn(200);
                     }
                 });
             } else {
                 $('#not-pass-confirm').fadeIn("slow");
-                $('#r-password').css("border", "1px solid red");
-                $('#r-confirm').css("border", "1px solid red");
+                alert_input('#r-password');
+                alert_input('#r-confirm');
             }
         } else {
-            $('#r-username').css("border", "1px solid red");
+            alert_input('#r-username');
         }
     });
 
@@ -71,6 +73,8 @@ $(document).ready(function () {
             "uname": username,
             "upwd": password
         };
+        reset_input('#l-username');
+        reset_input('#l-password');
         $.ajax({
             url: '/login',
             type: 'post',
@@ -79,14 +83,20 @@ $(document).ready(function () {
                 if (status == 'success') {
                     if (data == '服装设计师')
                         location.href = '/designer';
-                    else if(data === '销售管理员')
+                    else if (data === '销售管理员')
                         location.href = '/stocks';
                     else
-                        location.href = '/home'
+                        location.href = '/home';
                 }
             },
             error: function (data, status) {
-                if (status == 'error') {
+                $('.msg').html(data.responseText);
+                $('.msg-content').hide();
+                $('.msg-content').fadeIn(200);
+                if (data.status === 404) {
+                    alert_input('#l-username');
+                } else if (data.status === 405) {
+                    alert_input('#l-password');
                 }
             }
         });
@@ -120,3 +130,11 @@ $(document).ready(function () {
     });
 
 });
+
+function alert_input(obj){
+    $(obj).css("border", "1px solid red");
+}
+
+function reset_input(obj){
+    $(obj).css("border", "1px solid #d1d5da");
+}
