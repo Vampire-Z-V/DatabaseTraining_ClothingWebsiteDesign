@@ -156,57 +156,64 @@ var label = function (router, model) {
         var attrtable = model.attrTable;
         var attrvalue = model.attrValue;
         var year = new Date();
+        var modified = true;
         year = (year.getFullYear()).toString().substr(-2);
-        for (let p of req.body) {
-            if (p.option == 'update') {
-                attrtable.destroy({
-                    where: {
-                        ID: p.ID
-                    }
-                }).then(function () {
-                    //item update
-                    item.update({
-                        item_name: p.item_name,
-                        cata_id: p.type_id,
-                        createTime: Date.now()
-                    }, {
+        (async () => {
+            for (let p of req.body) {
+                if (p.option == 'update') {
+                    attrtable.destroy({
+                        where: {
+                            ID: p.ID
+                        }
+                    }).then(function () {
+                        //item update
+                        item.update({
+                            item_name: p.item_name,
+                            cata_id: p.type_id,
+                            createTime: Date.now()
+                        }, {
+                                where: {
+                                    ID: p.ID
+                                }
+                            });
+                        //attrTable update
+                        for (let q of p.attributes) {
+                            var attrn_id = q.attrn_id;
+                            for (let w of q.attrv_ids) {
+                                attrtable.create({
+                                    ID: p.ID,
+                                    attrn_id: attrn_id,
+                                    attrv_id: w
+                                }).then(function (p) {
+                                    console.log('updated.' + JSON.stringify(p));
+                                }).catch(function (err) {
+                                    console.log('failed: ' + err);
+                                });
+                            }
+                        }
+                    });
+                }
+                else if (p.option == 'delete') {
+                    var sequelize = model.sequelize;
+                    await sequelize.query('delete from pictures_items_relation where ID = :ID and pic_id = :pic_id ',
+                        { replacements: { ID: p.ID, pic_id: pid }, type: sequelize.QueryTypes.DELETE }
+                    );
+                    //如果和一个单品相关联的所有图片中都确定要删除这个单品，那么该单品的所有信息就被删除
+                    var left_relation_amount = await sequelize.query('select count(*)as amount from pictures_items_relation where ID = :ID ',
+                        { replacements: { ID: p.ID }, type: sequelize.QueryTypes.SELECT }
+                    );
+                    if (left_relation_amount[0].amount == 0) {
+                        await sequelize.query('delete from monthlysales where ID = ? ',
+                            { replacements: [p.ID], type: sequelize.QueryTypes.DELETE }
+                        );
+                        await sequelize.query('delete from annualsales where ID = ? ',
+                            { replacements: [p.ID], type: sequelize.QueryTypes.DELETE }
+                        );
+                        await model.sales.destroy({
                             where: {
                                 ID: p.ID
                             }
                         });
-                    //attrTable update
-                    for (let q of p.attributes) {
-                        var attrn_id = q.attrn_id;
-                        for (let w of q.attrv_ids) {
-                            attrtable.create({
-                                ID: p.ID,
-                                attrn_id: attrn_id,
-                                attrv_id: w
-                            }).then(function (p) {
-                                console.log('updated.' + JSON.stringify(p));
-                            }).catch(function (err) {
-                                console.log('failed: ' + err);
-                            });
-                        }
-                    }
-                });
-            }
-            else if (p.option == 'delete') {
-                var sequelize = model.sequelize;
-                sequelize.query('delete from pictures_items_relation where ID = ? ',
-                    { replacements: [p.ID], type: sequelize.QueryTypes.DELETE }
-                ).then(projects => {
-                    sequelize.query('delete from monthlysales where ID = ? ',
-                        { replacements: [p.ID], type: sequelize.QueryTypes.DELETE }
-                    ).then(projects => { });
-                    sequelize.query('delete from annualsales where ID = ? ',
-                        { replacements: [p.ID], type: sequelize.QueryTypes.DELETE }
-                    ).then(projects => { });
-                    model.sales.destroy({
-                        where: {
-                            ID: p.ID
-                        }
-                    }).then(function (g) {
                         attrtable.destroy({
                             where: {
                                 ID: p.ID
@@ -222,59 +229,66 @@ var label = function (router, model) {
                             }).catch(function (err) {
                                 console.log('failed: ' + err);
                             });
-                        }).catch(function (err) {
-                            console.log('failed: ' + err);
                         });
+                    }
+                    //如果拥有该单品的图片所剩单品数量为0，则状态改为undone
+                    var left_items_amount = await sequelize.query('select count(*)as amount from pictures_items_relation where pic_id = :pic_id ',
+                        { replacements: { pic_id: pid }, type: sequelize.QueryTypes.SELECT }
+                    );
+                    if (left_items_amount[0].amount == 0) {
+                        modified = false;
+                    }
+                } else if (p.option == 'insert') {
+                    //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
+                    //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
+                    var handled_ID = year + pid + p.type_id;
+                    item.create({
+                        ID: handled_ID,
+                        item_name: p.item_name,
+                        cata_id: p.type_id,
+                        createTime: Date.now()
+                    }).then(function (z) {
+                        var sequelize = model.sequelize;
+                        sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
+                            { replacements: { ID: [z.ID], pic_id: [pid] }, type: sequelize.QueryTypes.INSERT }
+                        ).then(projects => {
+                            console.log(projects)
+                        });
+                        console.log('created.' + JSON.stringify(z));
+                        for (let q of p.attributes) {
+                            var attrn_id = q.attrn_id;
+                            for (let w of q.attrv_ids) {
+                                attrtable.create({
+                                    ID: z.ID,
+                                    attrn_id: attrn_id,
+                                    attrv_id: w
+                                }).then(function (p) {
+                                    console.log('created.' + JSON.stringify(p));
+                                }).catch(function (err) {
+                                    console.log('failed: ' + err);
+                                });
+                            }
+                        }
                     }).catch(function (err) {
                         console.log('failed: ' + err);
                     });
-                });
-            } else if (p.option == 'insert') {
-                //生成ID：例如某一款连衣裙的ID为1723001，是指17年第2季度连衣裙（种类编号为3）的001款）
-                //我这里与原需求不同，第二季度改成了pic_id，001款被去掉了
-                var handled_ID = year + pid + p.type_id;
-                item.create({
-                    ID: handled_ID,
-                    item_name: p.item_name,
-                    cata_id: p.type_id,
-                    createTime: Date.now()
-                }).then(function (z) {
-                    var sequelize = model.sequelize;
-                    sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
-                        { replacements: { ID: [z.ID], pic_id: [pid] }, type: sequelize.QueryTypes.INSERT }
-                    ).then(projects => {
-                        console.log(projects)
-                    });
-                    console.log('created.' + JSON.stringify(z));
-                    for (let q of p.attributes) {
-                        var attrn_id = q.attrn_id;
-                        for (let w of q.attrv_ids) {
-                            attrtable.create({
-                                ID: z.ID,
-                                attrn_id: attrn_id,
-                                attrv_id: w
-                            }).then(function (p) {
-                                console.log('created.' + JSON.stringify(p));
-                            }).catch(function (err) {
-                                console.log('failed: ' + err);
-                            });
-                        }
-                    }
-                }).catch(function (err) {
-                    console.log('failed: ' + err);
-                });
-            } else {//同款 ----->创建关联
-                (async () => {
+                } else {//同款 ----->创建关联
                     var sequelize = model.sequelize;
                     var message = await sequelize.query('insert into pictures_items_relation(ID,pic_id)values(:ID,:pic_id) ',
                         { replacements: { ID: [p.ID], pic_id: [pid] }, type: sequelize.QueryTypes.INSERT }
                     );
-                })();
+                }
             }
-        }
-        (async () => {
-            await model.pictures.update({
-                pic_status: 'done',
+            if (modified == true)
+                await model.pictures.update({
+                    pic_status: 'done',
+                }, {
+                        where: {
+                            pic_id: pid
+                        }
+                    });
+            else await model.pictures.update({
+                pic_status: 'undo',
             }, {
                     where: {
                         pic_id: pid

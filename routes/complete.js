@@ -17,7 +17,6 @@ var complete = function (router, model) {
 					console.log(err);
 				})
 
-
 		});
 };
 
