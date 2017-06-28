@@ -22,12 +22,14 @@
                     </a>
                 </td>
                 <td class="td-edit" style="text-align: center" width="5%">
-                    <% if(!item.hasOwnProperty("is_same_items")) { %>
+                    <% if(!item.hasOwnProperty("is_same_items") && !item.hasOwnProperty("status")) { %>
                         <span class="glyphicon glyphicon-edit icon-style edit"></span>
                     <% } %>
                 </td>
                 <td class="td-remove" style="text-align: center" width="5%">
-                    <span class="glyphicon glyphicon-trash icon-style remove"></span>
+                    <% if(!item.hasOwnProperty("status")) { %>
+                        <span class="glyphicon glyphicon-trash icon-style remove"></span>
+                    <% } %>
                 </td>
             </tr>
         </table>
