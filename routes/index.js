@@ -9,7 +9,7 @@ var upload = require('./upload');
 var home = require('./home');
 var designer = require('./designer');
 var stocks = require('./stocks');
-
+var completedProject = require('./completedProject');
 var complete = require('./complete');
 
 var label = require('./label');
@@ -39,6 +39,8 @@ designer(router, model);
 stocks(router, model);
 
 complete(router, model);
+
+completedProject(router, model);
 
 label(router, model);
 

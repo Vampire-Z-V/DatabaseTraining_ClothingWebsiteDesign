@@ -45,7 +45,7 @@
 				  <ul class="list-group">  
 				    <% projects.forEach(function(project){ %>  
 				    	<li class="list-group-item" 
-				    		onclick="location.href='project?id=<%= project.pro_id %>&status=' + 'complete'" 
+				    		onclick="location.href='completedProject?id=<%= project.pro_id %>'" 
 							name='<%= project.pro_name %>'>
 				    		
 				    		<p>任务名: <%= project.pro_name %></p>

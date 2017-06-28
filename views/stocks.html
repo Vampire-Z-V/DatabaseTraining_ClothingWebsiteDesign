@@ -6,10 +6,7 @@
 	<!--注意加载顺序-->
 	<script src="/javascripts/jquery.min.js"></script>
 	<script src="/javascripts/bootstrap.min.js"></script>
-	<style type="text/css">
-    	a{margin-left: 20px; text-decoration: none;}
-    	a:hover{text-decoration: underline;}
-    </style>
+	<link rel="stylesheet" href="/stylesheets/upload.css" />
 </head>
 
 <body>
@@ -43,6 +40,7 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading">搜索结果</div>
 		    <ul class="list-group" id="list">
+
 		        <% if (stocks.length) { %>  
 				  <ul class="list-group">  
 				    <% stocks.forEach(function(stock){ %>  
@@ -52,7 +50,7 @@
 				      		
 				      		<p>货号：<%= stock.stocks_id %></p>
 				      		<p>库存量：<%= stock.stocks_num %></p>
-				      		<img src=<%= stock.path %> />
+				      		<img src='image/<%= stock.path %>' style="height:100px;width:80px" />
 				    	</li>
 				    <% }) %>  
 				  </ul>  

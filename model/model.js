@@ -203,6 +203,18 @@ model.items_attributes_view = sequelize.define('items_attributes_view', {
 		'timestamps': false
 	});
 
+model.pictures_items_relation = sequelize.define('pictures_items_relation', {
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	pic_id: Sequelize.INTEGER
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
 model.attributes_view = sequelize.define('attributes_view', {
 	cata_id: {
 		type: Sequelize.INTEGER,

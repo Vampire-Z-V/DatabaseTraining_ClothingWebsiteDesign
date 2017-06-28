@@ -8,23 +8,45 @@ var stocks = function (router, model) {
         }
 
         var data = [];
+        var complete = 0;
+        var stock_data;
         var Stocks = model.stocks;
         var Items = model.items;
         var Pictures = model.pictures;
+        var pictures_items_relation = model.pictures_items_relation;
+
         Stocks.findAll()
             .then(stocks => {
+                stock_data = stocks;
                 stocks.forEach(function (stock) {
                     var temp = {};
                     temp.stocks_id = stock.stocks_id;
                     temp.stocks_num = stock.stocks_num;
                     var ID = stock.ID;
-                    Items.findOne({ where: { ID: ID } })
-                        .then(item => {
+
+                    Items.findOne({where: {ID : ID}})
+                        .then(item=>{
                             temp.name = item.item_name;
-                            Picture.findOne({ where: { pic_id: item.pic_id } })
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                        });
+
+                    pictures_items_relation.findOne({ where: { ID: ID } })
+                        .then(item => {
+                            Pictures.findOne({ where: { pic_id: item.pic_id } })
                                 .then(picture => {
                                     temp.path = picture.pic_path;
                                     data.push(temp);
+                                    complete++;
+                                     if(complete === stock_data.length){
+                                        console.log(data.length);
+
+                                        res.render('stocks', {
+                                            stocks: data
+                                        });
+                                    }
+                                    //console.log(data);
                                 })
                                 .catch(err1 => {
                                     console.log(err1);
@@ -34,12 +56,19 @@ var stocks = function (router, model) {
                             console.log(err2);
                         });
                 });
+
             })
-            .then(function () {
-                res.render('stocks', {
-                    stocks: data
-                });
-            })
+            // .then(nu=> {
+            //     console.log(complete);
+            //     console.log(stock_data.length);
+            //     if(complete === stock_data.length){
+            //         console.log(data.length);
+
+            //         res.render('stocks', {
+            //             stocks: data
+            //         });
+            //     }
+            // })
             .catch(err3 => {
                 console.log(err3);
             });
