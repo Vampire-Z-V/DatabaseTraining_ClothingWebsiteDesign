@@ -1,3 +1,5 @@
+﻿
+hello
 drop table if exists pictures_items_relation;
 drop table if exists users;
 drop table if exists monthlysales;
