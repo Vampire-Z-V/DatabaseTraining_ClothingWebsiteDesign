@@ -6,10 +6,7 @@
 	<!--注意加载顺序-->
 	<script src="/javascripts/jquery.min.js"></script>
 	<script src="/javascripts/bootstrap.min.js"></script>
-	<style type="text/css">
-    	a{margin-left: 20px; text-decoration: none;}
-    	a:hover{text-decoration: underline;}
-    </style>
+	<link rel="stylesheet" href="/stylesheets/upload.css" />
 </head>
 
 <body>
@@ -21,7 +18,9 @@
 		    <div>
 		        <ul class="nav navbar-nav navbar-right">
 		        	<li><a href="/home">未完成任务</a></li>
+
 		        	<li><a href="/complete">已完成任务</a></li>
+
 		        	<li><a href="/upload">创建任务</a></li>
 		            <li><a href="#">欢迎,<%= user.name %></a></li>
 		            <li><a href="/logout">注销</a></li>
@@ -33,25 +32,26 @@
 
 	<div class="container">
 		<div style="text-align:right">
-			<input type="text" style="text-align:center;" name="search" id="search" placeholder="请输入任务名">
+			<input type="text" style="text-align:center;" name="search" id="search" placeholder="请输入关键字进行搜索">
 			<input type="button" id="searchBtn" value="搜索" />
 		</div>
 		<legend></legend>
 		
 		<div class="panel panel-default">
-		    <div class="panel-heading">任务列表</div>
+		    <div class="panel-heading">搜索结果</div>
 		    <ul class="list-group" id="list">
-		        <% if (projects.length) { %>  
+
+		        <% if (stocks.length) { %>  
 				  <ul class="list-group">  
-				    <% projects.forEach(function(project){ %>  
-				    	<li class="list-group-item" 
-				    		onclick="location.href='completedProject?id=<%= project.pro_id %>'" 
-							name='<%= project.pro_name %>'>
+				    <% stocks.forEach(function(stock){ %>  
+				    	<li class="list-group-item" name='<%= stock.name %>'>
 				    		
-				    		<p>任务名: <%= project.pro_name %></p>
+				    		<p>款式名: <%= stock.name %></p>
 				      		
-				      		<p>状态：完成</p>
-				    	</li>  
+				      		<p>货号：<%= stock.stocks_id %></p>
+				      		<p>库存量：<%= stock.stocks_num %></p>
+				      		<img src='image/<%= stock.path %>' style="height:100px;width:80px" />
+				    	</li>
 				    <% }) %>  
 				  </ul>  
 				<% } %>
@@ -80,12 +80,14 @@
 				});
 			});
 
+
 			$('#search').change(function() {
 				var text = $("#search").val();
 				if(! text){
 					location.reload(false);
 				}
 			})
+
 		});
 	</script>
 </body>

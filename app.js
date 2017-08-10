@@ -17,7 +17,7 @@ app.use(session({
 	key: config.database,
 	secret: config.cookieSecret,
 	cookie:{
-		maxAge: 1000*60*30
+		maxAge: 1000*60*30*2*24
 	},
 	//store: new MySQLStore(config),
     resave: true,
@@ -26,12 +26,11 @@ app.use(session({
 app.use(function (req, res, next) {
 	//这些步骤的目的是？？？
 	res.locals.user = req.session.user;
-	var err = req.session.error;
-	delete req.session.error;
+	var msg = req.session.msg;
+	delete req.session.msg;
 	res.locals.message = "";
-	if(err) {
-		res.locals.message = '<div class="alert alert-danger" style="margin-bottom:20px;color:red;">'
-			+err+'</div>';
+	if(msg) {
+		res.locals.message = msg;
 	}
 	next();
 });
@@ -63,6 +62,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/index', routes);
 app.use('/users', users);
 //创建路由
 app.use('/login', routes);

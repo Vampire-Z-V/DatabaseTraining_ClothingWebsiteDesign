@@ -20,10 +20,7 @@
 		    </div>
 		    <div>
 		        <ul class="nav navbar-nav navbar-right">
-		        	<li><a href="/home">未完成任务</a></li>
-		        	<li><a href="/complete">已完成任务</a></li>
-		        	<li><a href="/upload">创建任务</a></li>
-		            <li><a href="#">欢迎,<%= user.name %></a></li>
+		            <li><a href="#">欢迎,服装设计师 ：<%= user.name %></a></li>
 		            <li><a href="/logout">注销</a></li>
 		        </ul>
 		    </div>
@@ -33,24 +30,25 @@
 
 	<div class="container">
 		<div style="text-align:right">
-			<input type="text" style="text-align:center;" name="search" id="search" placeholder="请输入任务名">
+			<input type="text" style="text-align:center;" name="search" id="search" placeholder="季节/+种类/+款式">
 			<input type="button" id="searchBtn" value="搜索" />
 		</div>
 		<legend></legend>
 		
 		<div class="panel panel-default">
-		    <div class="panel-heading">任务列表</div>
+		    <div class="panel-heading">款式列表</div>
 		    <ul class="list-group" id="list">
-		        <% if (projects.length) { %>  
+		        <% if (items_sales_data.length) { %>  
 				  <ul class="list-group">  
-				    <% projects.forEach(function(project){ %>  
-				    	<li class="list-group-item" 
-				    		onclick="location.href='completedProject?id=<%= project.pro_id %>'" 
-							name='<%= project.pro_name %>'>
-				    		
-				    		<p>任务名: <%= project.pro_name %></p>
-				      		
-				      		<p>状态：完成</p>
+				    <% items_sales_data.forEach(function(project){ %>  
+				    	<li class="list-group-item" onclick="location.href='/designer/item_detail?id=<%= project.ID %>'" 
+							name='<%= project.item_name %>' >
+				    		<p>款式名称: <%= project.item_name %></p>
+				      		<p>款式编号: <%= project.ID %></p>
+							<p>款式种类: <%= project.type %></p>
+							<p>地区编号: <%= project.region_id %></p>
+							<p>销售渠道: <%= project.channel %></p>
+							<p>受众年龄: <%= project.agegroup %></p>
 				    	</li>  
 				    <% }) %>  
 				  </ul>  
@@ -80,12 +78,14 @@
 				});
 			});
 
+
 			$('#search').change(function() {
 				var text = $("#search").val();
 				if(! text){
 					location.reload(false);
 				}
 			})
+
 		});
 	</script>
 </body>

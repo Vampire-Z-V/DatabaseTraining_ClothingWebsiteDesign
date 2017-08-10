@@ -1,7 +1,7 @@
 var login = function (router, model) {
 	router.route("/login")
 		.get(function (req, res) {
-			res.render("login", { title: "User login" });
+			res.redirect('/index');
 		})
 		.post(function (req, res) {
 			var user = model.user;
@@ -11,17 +11,14 @@ var login = function (router, model) {
 			user.findOne({ where: { name: uname } })
 				.then(p => {
 					if (p) {
-						//req.body.upwd?
 						if (req.body.upwd != p.password) {
-							req.session.error = "密码错误";
-							res.send(404);
+							res.status(405).render('ejs/messege.ejs', { msg: "Incorrect password.", status: 405 });
 						} else {
 							req.session.user = p;
-							res.send(200);
+							res.send(p.user_type);
 						}
 					} else {
-						req.session.error = "用户不存在";
-						res.send(404);
+						res.status(404).render('ejs/messege.ejs', { msg: "Incorrect user.", status: 404 });
 					}
 				})
 				.catch(error => {

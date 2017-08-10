@@ -14,6 +14,8 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 });
 
 var model = {};
+//for raw queries
+model.sequelize = sequelize;
 
 //这里第一个参数为'user'，对应的数据库表为users
 model.user = sequelize.define('user', {
@@ -22,6 +24,7 @@ model.user = sequelize.define('user', {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	user_type: Sequelize.ENUM('系统管理员', '服装设计师', '销售管理员'),
 	name: Sequelize.STRING(20),
 	password: Sequelize.STRING(20),
 	//因为在将sequelize函数转换为mysql语句的时候，会自动添加createdAt和updatedAt这两个属性
@@ -65,15 +68,15 @@ model.items = sequelize.define('items', {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	item_name: Sequelize.STRING,
 	cata_id: Sequelize.INTEGER,
-	pic_id: Sequelize.INTEGER,
 	createTime: Sequelize.DATE
 },
 	{
 		'freezeTableName': true,
 		'timestamps': false
 	});
-model.attrtable = sequelize.define('attrTable', {
+model.attrTable = sequelize.define('attrTable', {
 	// attrTable_id: {
 	// 	type: Sequelize.INTEGER,
 	// 	primaryKey: true,
@@ -101,6 +104,34 @@ model.attrname = sequelize.define('attrName', {
 		'freezeTableName': true,
 		'timestamps': false
 	});
+//这个表有问题吧？
+model.sales = sequelize.define('sales', {
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+		autoIncrement: true
+	}
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
+model.stocks = sequelize.define('stocks', {
+	stocks_id: {
+		type: Sequelize.INTEGER,
+		primaryKey: true,
+		autoIncrement: true
+	},
+	ID: Sequelize.STRING(7),
+	size: Sequelize.ENUM('80', '90', '100', '110', '120', '130', '140', '150', '155', '160', '165', '170', '175', '180'),
+	stocks_num: Sequelize.INTEGER
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
 model.attrvalue = sequelize.define('attrValue', {
 	attrv_id: {
 		type: Sequelize.INTEGER,
@@ -129,13 +160,30 @@ model.catagory = sequelize.define('catagory', {
 	});
 
 model.items_catagory_view = sequelize.define('items_catagory_view', {
-	pic_id: Sequelize.INTEGER,
+	item_name: Sequelize.INTEGER,
 	ID: {
 		type: Sequelize.STRING,
 		primaryKey: true,
 	},
 	type: Sequelize.STRING,
 	group_name: Sequelize.STRING,
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
+model.items_sales_view = sequelize.define('items_sales_view', {
+	item_name: Sequelize.INTEGER,
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	type: Sequelize.STRING,
+	group_name: Sequelize.STRING,
+	region_id: Sequelize.INTEGER,
+	channel: Sequelize.STRING,
+	agegroup: Sequelize.STRING
 },
 	{
 		'freezeTableName': true,
@@ -155,15 +203,30 @@ model.items_attributes_view = sequelize.define('items_attributes_view', {
 		'timestamps': false
 	});
 
+model.pictures_items_relation = sequelize.define('pictures_items_relation', {
+	ID: {
+		type: Sequelize.STRING,
+		primaryKey: true,
+	},
+	pic_id: Sequelize.INTEGER
+},
+	{
+		'freezeTableName': true,
+		'timestamps': false
+	});
+
 model.attributes_view = sequelize.define('attributes_view', {
-	cata_name: Sequelize.STRING,
-	attrName: Sequelize.STRING,
-	attrValue: Sequelize.STRING,
 	cata_id: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
 	},
-	parent_id: Sequelize.INTEGER
+	cata_name: Sequelize.STRING,
+	attrn_id: Sequelize.INTEGER,
+	attrName: Sequelize.STRING,
+	attrv_id: Sequelize.INTEGER,
+	attrValue: Sequelize.STRING,
+	parent_id: Sequelize.INTEGER,
+	multi: Sequelize.BOOLEAN
 },
 	{
 		'freezeTableName': true,
